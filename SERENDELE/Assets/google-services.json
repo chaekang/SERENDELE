@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "380044439555",
+    "firebase_url": "https://creatures-858b4-default-rtdb.firebaseio.com",
+    "project_id": "creatures-858b4",
+    "storage_bucket": "creatures-858b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380044439555:android:68bc49bcd68a8b22759e36",
+        "android_client_info": {
+          "package_name": "com.creatures.TotheRescue"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGVT5y3TTn8-ZNzAwodFQtlFMp5bLoLaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380044439555:android:5d6816b49694c55f759e36",
+        "android_client_info": {
+          "package_name": "com.switch.serendele"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGVT5y3TTn8-ZNzAwodFQtlFMp5bLoLaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
