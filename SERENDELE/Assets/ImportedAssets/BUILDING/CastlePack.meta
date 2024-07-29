@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:SERENDELE/Assets/ImportedAssets/BUILDING/CastlePack.meta
 guid: a875f07058ec8dc4489c790d3b1f3025
 folderAsset: yes
+========
+guid: d1c3109bdb54ad54c8a2b2838528e640
+>>>>>>>> ddefa3e570a1285241e6510d434d9572b91e36e0:SERENDELE/Assets/ImportedAssets/CENTRAL_BASE/Low-Poly Medieval Market/Scenes/SampleScene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
