@@ -7,11 +7,16 @@ public class MouseMove : MonoBehaviourPun
 {
     public float sesitivity;
     public float rotationX;
-    public float rotationY; 
+    public float rotationY;
+
+    public float maxRotation;
+    public float minRotation;
+
+    public Transform wizard;
     // Start is called before the first frame update
     void Start()
     {
-        
+        wizard = transform.parent;
     }
 
     // Update is called once per frame
@@ -25,10 +30,10 @@ public class MouseMove : MonoBehaviourPun
             rotationY += mouseMoveX * sesitivity * Time.deltaTime;
             rotationX += mouseMoveY * sesitivity * Time.deltaTime;
 
-            if (rotationX > 5f) rotationX = 5f;
-            else if (rotationX < -5f) rotationX = -5f;
+            if (rotationX > maxRotation) rotationX = maxRotation;
+            else if (rotationX < minRotation) rotationX = minRotation;
 
-
+            wizard.eulerAngles = new Vector3(0, rotationY, 0);
             transform.eulerAngles = new Vector3(-rotationX, rotationY, 0);
         }
         

@@ -24,7 +24,6 @@ public class Wand : MonoBehaviour
     public float projectileSpeed;    // 투사체 속도
 
     public Transform weaponPosition;
-    public Vector3 rotation = new (150, 0, 0);
     private Collider col;
     private Rigidbody rb;
     // Start is called before the first frame update
@@ -40,7 +39,7 @@ public class Wand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isHand)
+        if (isHand)
         {
             UseWeapon();
             col.isTrigger = true;
@@ -49,12 +48,12 @@ public class Wand : MonoBehaviour
             weaponPosition = GetComponentInParent<Transform>();
             weaponPosition = weaponPosition.parent;
             transform.position = weaponPosition.position;
-            transform.rotation = Quaternion.Euler(rotation);
+            transform.rotation = weaponPosition.rotation;
         }
     }
     void UseWeapon()
     {
-        if (isReady && Input.GetMouseButtonDown(0)) 
+        if (isReady && Input.GetMouseButtonDown(0))
         {
             isAttacking = true;
             SpawnProjectile();

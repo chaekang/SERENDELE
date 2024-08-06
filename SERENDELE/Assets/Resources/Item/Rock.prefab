@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4462541664543435806}
   - component: {fileID: 5277958349799807045}
   - component: {fileID: 8379235486955022766}
-  - component: {fileID: 6509574620056749656}
+  - component: {fileID: 7326739196973982661}
   m_Layer: 7
   m_Name: Rock
   m_TagString: Untagged
@@ -136,7 +136,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6509574620056749656
+--- !u!114 &7326739196973982661
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 657543971143020447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 294b36ec6794cef4d8b3fe7cd22e4b42, type: 3}
+  m_Script: {fileID: 11500000, guid: 62dacb62b029ef147bb6658e90d462e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 73573b3368e10d24ea06aa6fa6a8326f, type: 2}
+  item: {fileID: 11400000, guid: 27c77d8e7b846ca48a636d1fb131c8b5, type: 2}
