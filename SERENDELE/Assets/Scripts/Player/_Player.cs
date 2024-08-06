@@ -1,7 +1,5 @@
-using Cinemachine;
 using Photon.Pun;
 using UnityEngine;
-using Cinemachine;
 
 public class _Player : MonoBehaviourPun
 {
@@ -18,7 +16,6 @@ public class _Player : MonoBehaviourPun
     private Animator animator;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public MeshCollider collider;
-    public CinemachineVirtualCamera followCam;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,11 +25,6 @@ public class _Player : MonoBehaviourPun
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
             speed = basicSpeed;
-
-            CinemachineVirtualCamera followCam = FindObjectOfType<CinemachineVirtualCamera>();
-            followCam.Follow = transform;
-            followCam.LookAt = transform;
-
         }
     }
 

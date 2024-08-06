@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 9026269785834712850}
   - component: {fileID: 2172721472267574752}
   - component: {fileID: 4430311712530838981}
-  - component: {fileID: 1214635424724412955}
   - component: {fileID: 7891839277533897765}
   - component: {fileID: 3820925422260445471}
   - component: {fileID: 3297931376628547980}
-  m_Layer: 7
+  - component: {fileID: 1136153553634737649}
+  m_Layer: 6
   m_Name: wand
   m_TagString: Wand
   m_Icon: {fileID: 0}
@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.11528069, y: 0.0095253335, z: 0.007677581, w: 0.99325764}
   m_LocalPosition: {x: 0.679999, y: 0.29999995, z: 0.59999996}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.4999998, y: 1.5000001, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,10 +83,11 @@ MonoBehaviour:
   isAttacking: 0
   isReady: 1
   coolTime: 0
-  projectile: {fileID: 1731129600272950664, guid: 60b91e11f4a95b24ab1c95e2fa8f9658, type: 3}
+  projectile: {fileID: 7670979169480570617, guid: f9a3aac1bca101a4bb003d8541d8c8b4, type: 3}
   projectileDistance: 5
   projectileSpeed: 3
   weaponPosition: {fileID: 0}
+  rotation: {x: 150, y: 0, z: 0}
 --- !u!114 &4430311712530838981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,19 +103,6 @@ MonoBehaviour:
   isHand: 0
   isOpeningInven: 1
   OpenInven: 0
---- !u!114 &1214635424724412955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2476565261310405781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 294b36ec6794cef4d8b3fe7cd22e4b42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: fde33d6a5d4633b488e8fbb9505ee98e, type: 2}
 --- !u!33 &7891839277533897765
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -135,7 +123,7 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 2
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
@@ -186,4 +174,17 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -8369894381874301590, guid: e671fb0c3cf2bf34196e3d732d7e244d, type: 3}
+  m_Mesh: {fileID: -8369894381874301590, guid: 0dadc4f76e216ab46b659e212a0e888e, type: 3}
+--- !u!114 &1136153553634737649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476565261310405781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62dacb62b029ef147bb6658e90d462e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 3321d7eecc4a1724e90899538618ec06, type: 2}

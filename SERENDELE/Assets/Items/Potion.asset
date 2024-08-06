@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f89ed89afdd59294699b28349c146620, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bd3971acac70514f99e05fec9354ae4, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
   displayName: "\uC77C\uBC18 \uBB3C\uC57D"
@@ -17,7 +17,7 @@ MonoBehaviour:
     \uD070 \uC0C1\uCC98\uB294 \uCE58\uB8CC\uD560 \uC218 \uC5C6\uB2E4."
   type: 2
   equipableType: 4
-  icon: {fileID: 21300000, guid: fd47c8b4ebfbd4339858d4d23f587519, type: 3}
+  icon: {fileID: 21300000, guid: d8e9e5a33e991684e98bc764adbb8be9, type: 3}
   dropPrefab: {fileID: 9066942616585205391, guid: 6b04b71feb5155b44b395b04eb5c23aa, type: 3}
   quantity: 0
   canStack: 1
