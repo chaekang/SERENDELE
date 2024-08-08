@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 7887616920281742638}
   - component: {fileID: 405085382955603155}
   - component: {fileID: 3198526975081501305}
-  - component: {fileID: 2803289606682452488}
+  - component: {fileID: 4149979015735919251}
   - component: {fileID: 5698205296900942599}
   - component: {fileID: 2026001938497601043}
   m_Layer: 5
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2803289606682452488
+--- !u!114 &4149979015735919251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,14 +298,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8471314239680573036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9586fc9db170cc44b893fc7754d49d0, type: 3}
+  m_Script: {fileID: 11500000, guid: a072e9e9eb6686e4c83465988afd65a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 5698205296900942599}
   icon: {fileID: 8867266735924233024}
   quatityText: {fileID: 3420900304945125291}
   index: 0
-  equipped: 0
+  equipped: 1
 --- !u!114 &5698205296900942599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2803289606682452488}
+      - m_Target: {fileID: 4149979015735919251}
         m_TargetAssemblyTypeName: ItemSlotUI, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1

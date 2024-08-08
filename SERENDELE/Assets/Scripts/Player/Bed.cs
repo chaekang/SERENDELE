@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class Bed : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject bedPanel; // Panel with Yes and No buttons
+    GameObject bedPanel; // Panel with Yes and No buttons
 
     private DayNightCycle dayNightCycle;
     private FirebaseManager firebaseManager;
@@ -15,13 +14,22 @@ public class Bed : MonoBehaviour
         dayNightCycle = FindObjectOfType<DayNightCycle>();
         firebaseManager = FindObjectOfType<FirebaseManager>();
 
+        bedPanel = FindFirstObjectByType<GameObject>();
+
         if (dayNightCycle == null)
         {
             Debug.LogError("DayNightCycle script not found in the scene.");
         }
 
-        // Initially hide the panel
-        bedPanel.SetActive(false);
+        if (bedPanel != null)
+        {
+            bedPanel.SetActive(false);
+
+        }
+        else
+        {
+            Debug.LogError("Bed Panel is empty");
+        }
     }
 
     private void OnMouseDown()
