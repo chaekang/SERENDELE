@@ -1,16 +1,18 @@
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class _Player : MonoBehaviourPun
 {
+    private float speed; // 스피드 저장 변수
     public float basicSpeed;
     public float runningSpeed;
-    public float jumpForce;
 
+    public float jumpForce;
     private bool isGround = true;
 
-    public string weapon = "nothing";
-    private float speed;
+    public GameObject equip;
+    public string equippedWeapon = "nothing";
 
     private Rigidbody rb;
     private Animator animator;
@@ -44,6 +46,7 @@ public class _Player : MonoBehaviourPun
         {
             Move();
             Jump();
+            AttackAnim();
         }
     
         
@@ -125,21 +128,29 @@ public class _Player : MonoBehaviourPun
     {
         // 변수 weapon: sword(검류), wand(지팡이류), shield(방패류)
         // 파라미터 weapon: 0(nothing), 1(sword), 2(wand), 3(shield)
+        if (equip.transform.childCount > 0)
+        {
+            equippedWeapon = equip.transform.GetChild(0).tag;
+        }
+        else
+        {
+            equippedWeapon = "nothing";
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
-            //animator.SetTrigger("isAttacking");
-            Debug.Log("attack");
-            switch (weapon)
+            animator.SetTrigger("isAttacking");
+            switch (equippedWeapon)
             {
-                case "sword":
+                case "Sword":
                     Debug.Log("sword attack");
                     animator.SetInteger("weapon", 1);
                     break;
-                case "wand":
+                case "Wand":
                     Debug.Log("wand attack");
                     animator.SetInteger("weapon", 2);
                     break;
-                case "shield":
+                case "Shield":
                     Debug.Log("shield attack");
                     animator.SetInteger("weapon", 3);
                     break;

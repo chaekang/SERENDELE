@@ -1,9 +1,6 @@
-using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class Wand : MonoBehaviour
 {
@@ -26,6 +23,8 @@ public class Wand : MonoBehaviour
     public Transform weaponPosition;
     private Collider col;
     private Rigidbody rb;
+
+    public Camera cam;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +74,7 @@ public class Wand : MonoBehaviour
     }
     void SpawnProjectile()
     {
-        Instantiate(projectile, gameObject.transform.position, gameObject.transform.rotation);
+        Instantiate(projectile, weaponPosition.transform.position, weaponPosition.transform.rotation);
     }
 
 }
