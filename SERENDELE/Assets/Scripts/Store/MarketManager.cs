@@ -13,16 +13,13 @@ public class MarketManager : MonoBehaviour
     public GameObject BuyPanel;
     public GameObject SellPanel;
 
-    public GameObject BuyBtn;
-    public GameObject SellBtn;
-
     public bool marketBuy;
 
     public bool isMarketPanelActive = false;
 
     private void Update()
     {
-        // MarketPanel�� Ȱ��ȭ ���¸� Ȯ���Ͽ� �÷��� ����
+        // MarketPanel의 활성화 상태를 확인하여 플래그 설정
         isMarketPanelActive = BuyPanel.activeSelf || SellPanel.activeSelf;
 
         if (isMarketPanelActive)
@@ -36,37 +33,121 @@ public class MarketManager : MonoBehaviour
 
         if (Inventory.instance.IsOpen())
         {
-            SellBtn.SetActive(false);
-            BuyBtn.SetActive(false);
+            ChoiceManager.Instance.choicePanel.gameObject.SetActive(false);
+        }
+
+        // 마우스 클릭을 감지하고 처리
+        if (Input.GetMouseButtonDown(0))
+        {
+            HandleMouseClick();
         }
     }
 
-    private void OnMouseDown()
+    private void HandleMouseClick()
     {
-        // MarketPanel�� Ȱ��ȭ�Ǿ� �ִ� ���� Ŭ�� �̺�Ʈ�� ����
-        if (isMarketPanelActive) return;
+        // 마우스 클릭 위치에서 레이캐스트를 발사하여 오브젝트를 감지
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
-        // SellBtn�� BuyBtn�� Ȱ��ȭ
-        SellBtn.SetActive(true);
-        BuyBtn.SetActive(true);
-        Inventory.instance.inventoryWindow.SetActive(false);
+        if (Physics.Raycast(ray, out hit))
+        {
+            // 클릭된 오브젝트가 "Market" 태그를 가지고 있는지 확인
+            if (hit.collider.CompareTag("MarketNPC"))
+            {
+                // 클릭된 오브젝트에서 Choice 스크립트를 가져옴
+                Choice choiceData = hit.collider.GetComponent<Choice>();
+
+                if (choiceData != null)
+                {
+                    // ChoiceManager를 통해 선택지를 표시하고, 선택 결과에 따른 동작을 처리
+                    ChoiceManager.Instance.ShowChoice(choiceData);
+                    StartCoroutine(WaitForMarketChoice());
+                }
+            }
+            else if (hit.collider.CompareTag("HotelNPC"))
+            {
+                // 클릭된 오브젝트에서 Choice 스크립트를 가져옴
+                Choice choiceData = hit.collider.GetComponent<Choice>();
+
+                if (choiceData != null)
+                {
+                    // ChoiceManager를 통해 선택지를 표시하고, 선택 결과에 따른 동작을 처리
+                    ChoiceManager.Instance.ShowChoice(choiceData);
+                    StartCoroutine(WaitForHotelChoice());
+                }
+            }
+        }
     }
 
-    public void OnSellBtnClick()
+    // 사용자가 선택을 마칠 때까지 대기하는 코루틴
+    private IEnumerator WaitForMarketChoice()
     {
-        Inventory.instance.inventoryWindow.SetActive(false);
-        marketBuy = false;
-        SellPanel.SetActive(true);
-        SellBtn.SetActive(false);
-        BuyBtn.SetActive(false);
+        // 사용자 입력 대기
+        while (ChoiceManager.Instance.choiceIng)
+        {
+            yield return null;
+        }
+
+        // 사용자가 H 키를 누를 때까지 대기
+        while (!Input.GetKeyDown(KeyCode.H))
+        {
+            yield return null;
+        }
+
+        // 선택 결과에 따른 행동 처리
+        int result = ChoiceManager.Instance.GetResult();
+
+        switch (result)
+        {
+            case 1:
+                BuyPanel.SetActive(true);
+                Debug.Log("Result: " + result);
+                break;
+            case 2:
+                SellPanel.SetActive(true);
+                Debug.Log("Result: " + result);
+                break;
+            case 3:
+                Debug.Log("Result: " + result);
+                break;
+            default:
+                break;
+        }
+
+        ChoiceManager.Instance.ExitChoice();
     }
 
-    public void OnBuyBtnClick()
+    private IEnumerator WaitForHotelChoice()
     {
-        Inventory.instance.inventoryWindow.SetActive(false);
-        marketBuy = true;
-        BuyPanel.SetActive(true);
-        SellBtn.SetActive(false);
-        BuyBtn.SetActive(false);
+        // 사용자 입력 대기
+        while (ChoiceManager.Instance.choiceIng)
+        {
+            yield return null;
+        }
+
+        // 사용자가 H 키를 누를 때까지 대기
+        while (!Input.GetKeyDown(KeyCode.H))
+        {
+            yield return null;
+        }
+
+        // 선택 결과에 따른 행동 처리
+        int result = ChoiceManager.Instance.GetResult();
+
+        switch (result)
+        {
+            case 1:
+                MoneyManager.Spend(50);
+                Debug.Log("Result: " + result);
+                break;
+            case 2:
+                Debug.Log("Result: " + result);
+                break;
+
+            default:
+                break;
+        }
+
+        ChoiceManager.Instance.ExitChoice();
     }
 }
