@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SEJIN/SetNickname.unity
     guid: 4d738a4b042080b4ea85f729e36e6268
   - enabled: 1
-    path: Assets/Scenes/SEJIN/CreateServer.unity
+    path: Assets/Scenes/SEJIN/2. CreateServer.unity
     guid: 1009a20bb7da5f242b00231139ab25ab
   m_configObjects: {}
