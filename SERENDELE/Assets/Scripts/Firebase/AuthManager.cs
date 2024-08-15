@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 public class AuthManager : MonoBehaviour
 {
+    // 로그인 확인
+    public bool IsLogin = false;
+
     [Header("Log in")]
     [SerializeField] GameObject LoginPanel;
     [SerializeField] TMP_InputField emailField;
@@ -105,6 +108,7 @@ public class AuthManager : MonoBehaviour
         {
             if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
             {
+                IsLogin = true; 
                 FirebaseUser user = task.Result.User; // Get the FirebaseUser object from the task result
                 string nickname = user.DisplayName;
                 Debug.Log($"{user.Email} 로 로그인 하셨습니다. 닉네임: {nickname}");
@@ -113,7 +117,7 @@ public class AuthManager : MonoBehaviour
                 NicknameField.text = nickname;
 
                 // 기본데이터 입력
-                firestoreManager.CheckAndSaveDefaultData(user.UserId);
+                firestoreManager.CheckAndSaveDefaultData(user.UserId);  
             }
             else
             {

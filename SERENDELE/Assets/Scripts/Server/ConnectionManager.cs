@@ -12,8 +12,11 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     [SerializeField]
     Button enterButton;
 
+    public AuthManager authManager;
+    
+
     void Start()
-    {
+    {   
         inputNickname.onValueChanged.AddListener(OnValueChanged);
         enterButton.onClick.AddListener(OnClickConnect);
     }
@@ -36,10 +39,33 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        base.OnJoinedLobby();
+        authManager = FindObjectOfType<AuthManager>();
+        Debug.Log(authManager.IsLogin);
+        if (authManager.IsLogin)
+        {
+            base.OnJoinedLobby();
 
-        PhotonNetwork.LoadLevel("2. CreateServer");
-        print("Enter Lobby");
+            PhotonNetwork.LoadLevel("2. CreateServer");
+            print("Enter Lobby");
+        }
+        else
+        {
+            Debug.Log("Login Failed. Cant Enter Lobby");
+
+            // 다시 포톤 연결
+            PhotonNetwork.Disconnect();  
+            StartCoroutine(Reconnect());
+        }
+    }
+
+    IEnumerator Reconnect()
+    {
+        Debug.Log("...Reconnecting to Photon");
+        while (PhotonNetwork.IsConnected == false)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+            yield return new WaitForSeconds(1f); 
+        }
     }
 
     public void OnClickConnect()

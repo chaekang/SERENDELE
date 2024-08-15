@@ -4,6 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -27,10 +28,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] bool Arie;
 
     // 경고창
-    [SerializeField] Image warnningMsg;
-    [SerializeField] TMP_Text chooseCha; // 캐릭터 선정하지 않고 버튼 누를 시
-    [SerializeField] TMP_Text inputTxt;  // 방 이름 적지 않고 Create 버튼 누를 시 
-    [SerializeField] TMP_Text clickList; // 방 선택하지 않고 Enter 버튼 누를 시
+    [SerializeField] Image warningMsg;
+    [SerializeField] TMP_Text warningText;
 
 
 
@@ -122,13 +121,32 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             IsOpen = true
         };
 
-        PhotonNetwork.CreateRoom(input_RoomName.text, options);
+        if (!Lembra && !Arie)
+        {
+            StartCoroutine(WarningMsg("characterError"));
+        }
+        else if(input_RoomName.text == "")
+        {
+            StartCoroutine(WarningMsg("createRoomError"));
+        }
+        else
+        {
+            PhotonNetwork.CreateRoom(input_RoomName.text, options);
+        }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        base.OnCreateRoomFailed(returnCode, message);
-        Debug.Log("Room creation failed: " + message);
+        if(!Lembra && !Arie)
+        {
+            StartCoroutine(WarningMsg("characterError"));
+        }
+        else
+        {
+            base.OnCreateRoomFailed(returnCode, message);
+            Debug.Log("Room creation failed: " + message);
+            StartCoroutine(WarningMsg("createRoomError"));
+        }
     }
 
     public override void OnCreatedRoom()
@@ -139,14 +157,33 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void OnClickJoinRoom()
     {
-        PhotonNetwork.JoinRoom(input_RoomName.text);
+       
+        if (!Lembra && !Arie)
+        {
+            StartCoroutine(WarningMsg("characterError"));
+        }
+        else if (input_RoomName.text == "")
+        {
+            StartCoroutine(WarningMsg("enterRoomError"));
+        }
+        else
+        {
+            PhotonNetwork.JoinRoom(input_RoomName.text);
+        }
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
         Debug.Log("Joined room successfully");
-        GameObject player = PhotonNetwork.Instantiate("Wizard", Vector3.zero, Quaternion.identity);
+        if (Arie)
+        {
+            GameObject Arie = PhotonNetwork.Instantiate("Arie", Vector3.zero, Quaternion.identity);
+        }
+        else if (Lembra)
+        {
+            GameObject Lembra = PhotonNetwork.Instantiate("Lembra", Vector3.zero, Quaternion.identity);
+        }
 
         if (serverUI != null)
         {
@@ -156,8 +193,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        base.OnJoinRoomFailed(returnCode, message);
-        Debug.Log("Failed to join room: " + message);
+        if (!Lembra && !Arie)
+        {
+            StartCoroutine(WarningMsg("characterError"));
+        }
+        else
+        {
+            base.OnJoinRoomFailed(returnCode, message);
+            Debug.Log("Failed to join room: " + message);
+            StartCoroutine(WarningMsg("enterRoomError"));
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -180,5 +225,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Lembra = true;
         infoArie.SetActive(false);
         infoLembra.SetActive(true);
+    }
+
+    IEnumerator WarningMsg(string msg)
+    {
+        //characterError   캐릭터 선정하지 않고 버튼 누를 시
+        //createRoomError  방 이름 적지 않고 Create 버튼 누를 시 
+        //enterRoomError   방 선택하지 않고 Enter 버튼 누를 시
+        switch (msg)
+        {
+            case "characterError":
+                warningText.text = "Please select a character!";
+                break;
+            case "createRoomError":
+                warningText.text = "Please enter a room name!";
+                break;
+            case "enterRoomError":
+                warningText.text = "Please select a room!";
+                break;
+            default:
+                warningText.text = "Unknown warning!";
+                break;
+        }
+
+        warningMsg.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        warningMsg.gameObject.SetActive(false);  
     }
 }
