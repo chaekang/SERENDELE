@@ -38,7 +38,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
 
-        PhotonNetwork.LoadLevel("CreateServer");
+        PhotonNetwork.LoadLevel("2. CreateServer");
         print("Enter Lobby");
     }
 
