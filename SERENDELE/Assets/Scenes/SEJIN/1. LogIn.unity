@@ -2537,22 +2537,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 035d96b259b892245b4d3af243bd36c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoginPanel: {fileID: 0}
-  emailField: {fileID: 0}
-  passField: {fileID: 0}
-  loginBtn: {fileID: 0}
-  FailLog: {fileID: 0}
-  RegisterTxt: {fileID: 0}
-  RegisterPanel: {fileID: 0}
-  RegisterEmailField: {fileID: 0}
-  RegisterEmailCheckBtn: {fileID: 0}
-  RegisterEmailCheckTxt: {fileID: 0}
-  RegisterPassField: {fileID: 0}
-  RegisterPassCheckField: {fileID: 0}
-  RegisterPassCheckTxt: {fileID: 0}
-  NicknameField: {fileID: 0}
-  RegisterBtn: {fileID: 0}
-  RegisterToLogin: {fileID: 0}
+  LoginPanel: {fileID: 615560664}
+  emailField: {fileID: 1778512648}
+  passField: {fileID: 1286632600}
+  loginBtn: {fileID: 673862895}
+  FailLog: {fileID: 984229428}
+  RegisterTxt: {fileID: 1399325514}
+  RegisterPanel: {fileID: 2031277269}
+  RegisterEmailField: {fileID: 2139804842}
+  RegisterEmailCheckBtn: {fileID: 1203341976}
+  RegisterEmailCheckTxt: {fileID: 2054105372}
+  RegisterPassField: {fileID: 1201232734}
+  RegisterPassCheckField: {fileID: 190800327}
+  RegisterPassCheckTxt: {fileID: 937066454}
+  NicknameField: {fileID: 1508033021}
+  RegisterBtn: {fileID: 280169424}
+  RegisterToLogin: {fileID: 1128494939}
 --- !u!4 &1104223510
 Transform:
   m_ObjectHideFlags: 0
