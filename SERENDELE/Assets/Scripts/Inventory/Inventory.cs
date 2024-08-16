@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -16,14 +17,14 @@ public class ItemSlot
 
 public class Inventory : MonoBehaviour
 {
-    public ItemSlotUI[] uidSlot;     // UI ���� ������ ����
-    public ItemSlot[] slots;         // ���� ������ ������ ����Ǵ� �迭
+    public ItemSlotUI[] uidSlot;
+    public ItemSlot[] slots;
 
     public ItemSlotUI[] uiPlayerSlot; // 0: head, 1: body, 2: shoes, 3: weapon
     public ItemSlot[] playerSlot;
 
-    public GameObject inventoryWindow;      // �κ��丮 â
-    public Transform dropPosition;      // ������ ��� ��ġ
+    public GameObject inventoryWindow;
+    public Transform dropPosition;  
 
     // ���� ����
     public Transform equipWeaponPosition;
@@ -48,11 +49,13 @@ public class Inventory : MonoBehaviour
     public static Inventory instance;
 
     private FirebaseManager firebaseManager;
+    private LobbyManager lobbyManager;
 
     private void Awake()
     {
         instance = this;
         firebaseManager = FindObjectOfType<FirebaseManager>();
+        lobbyManager = FindObjectOfType<LobbyManager>();
     }
 
     // Start is called before the first frame update
@@ -63,7 +66,6 @@ public class Inventory : MonoBehaviour
         slots = new ItemSlot[uidSlot.Length];
         for (int i = 0; i < slots.Length; i++)
         {
-            // UI Slot �ʱ�ȭ�ϱ�
             slots[i] = new ItemSlot();
             uidSlot[i].index = i;
             uidSlot[i].Clear();
@@ -72,7 +74,6 @@ public class Inventory : MonoBehaviour
         playerSlot = new ItemSlot[uiPlayerSlot.Length];
         for (int i = 0; i < playerSlot.Length; i++)
         {
-            // UI Slot �ʱ�ȭ�ϱ�
             playerSlot[i] = new ItemSlot();
             uiPlayerSlot[i].index = i;
             uiPlayerSlot[i].Clear();
@@ -81,9 +82,106 @@ public class Inventory : MonoBehaviour
         ClearSelectItemWindow();
 
         firebaseManager.LoadUserItems(OnItemsLoaded);
+        StartCoroutine(FindPositionsCoroutine());
     }
 
-    // �κ��丮 Ű �Է� Ȯ��
+    private IEnumerator FindPositionsCoroutine()
+    {
+        while (dropPosition == null || equipWeaponPosition == null)
+        {
+            if (dropPosition == null)
+            {
+                Debug.Log("Attempting to assign drop position.");
+                dropPosition = FindInactiveObjectByName("DropPosition")?.transform;
+            }
+
+            if (equipWeaponPosition == null)
+            {
+                Debug.Log("Attempting to assign equipWeaponPosition.");
+                GameObject equipWeaponPositionObj = FindEquipWeaponPosition();
+                if (equipWeaponPositionObj != null)
+                {
+                    equipWeaponPosition = equipWeaponPositionObj.transform;
+                }
+                else
+                {
+                    Debug.LogWarning("equipWeaponPosition not found. Retrying...");
+                }
+            }
+
+            if (dropPosition != null && equipWeaponPosition != null)
+            {
+                yield break;
+            }
+
+            // 잠시 대기한 후 다시 시도
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private GameObject FindEquipWeaponPosition()
+    {
+        // 상위 오브젝트를 먼저 찾습니다.
+        if (lobbyManager.Arie)
+        {
+            GameObject arieObject = GameObject.Find("Arie(Clone)");
+            if (arieObject == null)
+            {
+                Debug.LogError("Arie(Clone) 오브젝트를 찾을 수 없습니다.");
+                return null;
+            }
+            // 자식 오브젝트를 탐색합니다.
+            Transform equipWeaponPositionTransform = arieObject.transform.Find("Armature/Hips/LowerSpine/Chest/Clavicle.R/UpperArm.R/LowerArm.R/Hand.R/Middle01.R/Middle02.R/equipWeaponPosition");
+
+            if (equipWeaponPositionTransform != null)
+            {
+                return equipWeaponPositionTransform.gameObject;
+            }
+            else
+            {
+                Debug.LogError("EquipWeaponPosition 오브젝트를 경로에서 찾을 수 없습니다.");
+            }
+        }
+        else if (lobbyManager.Lembra)
+        {
+            GameObject LembraObject = GameObject.Find("Lembra(Clone)");
+            if (LembraObject == null)
+            {
+                Debug.LogError("Lembra(Clone) 오브젝트를 찾을 수 없습니다.");
+                return null;
+            }
+            // 자식 오브젝트를 탐색합니다.
+            Transform equipWeaponPositionTransform = LembraObject.transform.Find("Armature/Hips/LowerSpine/Chest/Clavicle.R/UpperArm.R/LowerArm.R/Hand.R/Middle01.R/Middle02.R/equipWeaponPosition");
+
+            if (equipWeaponPositionTransform != null)
+            {
+                return equipWeaponPositionTransform.gameObject;
+            }
+            else
+            {
+                Debug.LogError("EquipWeaponPosition 오브젝트를 경로에서 찾을 수 없습니다.");
+            }
+        }
+        return null;
+    }
+
+
+    private GameObject FindInactiveObjectByName(string name)
+    {
+        // 모든 게임 오브젝트를 찾아 비활성화된 오브젝트까지 검색
+        GameObject[] objs = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (GameObject obj in objs)
+        {
+            if (obj.name == name)
+            {
+                return obj;
+            }
+        }
+
+        return null;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F) && !GameManager.Instance.MarketManager.isMarketPanelActive)
@@ -99,7 +197,15 @@ public class Inventory : MonoBehaviour
 
         if (isOpen )
         {
-            firebaseManager.LoadUserItems(OnItemsLoaded);
+            if (firebaseManager != null)
+            {
+                firebaseManager.LoadUserItems(OnItemsLoaded);
+
+            }
+            else
+            {
+                Debug.LogError("firebaseManager is null");
+            }
         }
     }
 
@@ -110,7 +216,6 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(ItemData item)
     {
-        // �ߺ� ��� ������
         if (item.canStack)
         {
             ItemSlot slotToStackTo = GetItemStack(item);
@@ -211,8 +316,6 @@ public class Inventory : MonoBehaviour
     public void SelectItem(int index)
     {
         if (slots[index].item == null && playerSlot[index].item == null) return;
-
-        // ������ ������ ���� ��������
 
         if (slots[index].item != null)
         {
@@ -405,12 +508,10 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(ItemData item)
     {
-        // ������ ���� ���� ����
     }
 
     public bool HasItems(ItemData item, int quantity)
     {
-        // ������ ���� ���� Ȯ�� ���� ����
         return false;
     }
 }
