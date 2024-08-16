@@ -1166,6 +1166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputNickname: {fileID: 1508033021}
   enterButton: {fileID: 673862895}
+  authManager: {fileID: 0}
 --- !u!4 &561866086
 Transform:
   m_ObjectHideFlags: 0
@@ -2537,6 +2538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 035d96b259b892245b4d3af243bd36c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLogin: 0
   LoginPanel: {fileID: 615560664}
   emailField: {fileID: 1778512648}
   passField: {fileID: 1286632600}
@@ -2837,8 +2839,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: LOGIN
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b06307e09f6d91f48bae93a8fbb7d517, type: 2}
+  m_sharedMaterial: {fileID: -9063771354795067097, guid: b06307e09f6d91f48bae93a8fbb7d517, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
