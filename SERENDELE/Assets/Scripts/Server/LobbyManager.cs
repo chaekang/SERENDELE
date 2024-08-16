@@ -25,8 +25,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] Button btn_Lembra;
     [SerializeField] GameObject infoLembra;
 
-    [SerializeField] bool Lembra;
-    [SerializeField] bool Arie;
+    public bool Lembra;
+    public bool Arie;
 
     // ∞Ê∞Ì√¢
     [SerializeField] Image warningMsg;

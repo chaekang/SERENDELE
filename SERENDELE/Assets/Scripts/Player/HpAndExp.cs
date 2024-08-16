@@ -6,6 +6,7 @@ using Firebase.Extensions;
 using System.Collections.Generic;
 using System.Collections;
 using TMPro;
+using Photon.Pun;
 
 public class HpAndExp : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class HpAndExp : MonoBehaviour
         });
 
         // UI 찾기
-        levelTxt = GameObject.Find("level_status").GetComponent<TextMeshProUGUI>();
+        levelTxt = GameObject.Find("lv_status").GetComponent<TextMeshProUGUI>();
         if (levelTxt != null) Debug.Log("levelTxt found and assigned.");
         else Debug.LogError("levelTxt not found!");
         HpTxt = GameObject.Find("hp_status").GetComponent<TextMeshProUGUI>();
@@ -78,9 +79,13 @@ public class HpAndExp : MonoBehaviour
 
     private void Update()
     {
-        // HP와 동기화
-        HPBar.value = curHp / maxHp;
-        HpTxt.text = $"{(int)curHp}";
+        if (HPBar != null)
+        {
+            // HP와 동기화
+            HPBar.value = curHp / maxHp;
+            HpTxt.text = $"{(int)curHp}";
+
+        }
 
         // HPBar 색상 변경
         if (HPBar.value <= 0.2f)
