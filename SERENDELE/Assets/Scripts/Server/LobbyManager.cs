@@ -10,6 +10,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject managerGroup;
     [SerializeField] GameObject serverUI; // UI 캔버스
+    [SerializeField] TMP_Text dayAndNight_text;
+    [SerializeField] GameObject playerInfo;
 
     // 룸 생성 및 입장 관련 UI
     [SerializeField] TMP_Text nickName;
@@ -179,19 +181,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("Joined room successfully");
         if (Arie)
         {
-            GameObject Arie = PhotonNetwork.Instantiate("Arie", Vector3.zero, Quaternion.identity);
-            managerGroup.SetActive(true);
+            GameObject Arie = PhotonNetwork.Instantiate("Arie", Vector3.zero, Quaternion.identity); 
         }
         else if (Lembra)
         {
             GameObject Lembra = PhotonNetwork.Instantiate("Lembra", Vector3.zero, Quaternion.identity);
-            managerGroup.SetActive(true);
         }
 
-        if (serverUI != null)
-        {
-            serverUI.SetActive(false);
-        }
+        serverUI.SetActive(false);
+        managerGroup.SetActive(true);
+        dayAndNight_text.gameObject.SetActive(true);
+        playerInfo.SetActive(true);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
