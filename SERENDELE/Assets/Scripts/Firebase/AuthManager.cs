@@ -213,7 +213,7 @@ public class AuthManager : MonoBehaviour
         if (RegisterPassField.text == RegisterPassCheckField.text)
         {
             RegisterPassCheckTxt.text = "비밀번호가 일치합니다";
-            RegisterPassCheckTxt.color = Color.green;
+            RegisterPassCheckTxt.color = Color.blue;
         }
         else
         {
