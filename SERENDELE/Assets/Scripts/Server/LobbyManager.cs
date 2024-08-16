@@ -8,6 +8,7 @@ using System.Collections;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField] GameObject managerGroup;
     [SerializeField] GameObject serverUI; // UI 캔버스
 
     // 룸 생성 및 입장 관련 UI
@@ -179,10 +180,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (Arie)
         {
             GameObject Arie = PhotonNetwork.Instantiate("Arie", Vector3.zero, Quaternion.identity);
+            managerGroup.SetActive(true);
         }
         else if (Lembra)
         {
             GameObject Lembra = PhotonNetwork.Instantiate("Lembra", Vector3.zero, Quaternion.identity);
+            managerGroup.SetActive(true);
         }
 
         if (serverUI != null)
