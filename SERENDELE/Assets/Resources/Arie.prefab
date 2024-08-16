@@ -66,7 +66,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.5496254, y: 0.00000011920929, z: 3.1796913}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2533871101634890519}
@@ -3286,7 +3286,7 @@ MonoBehaviour:
   rotationX: 0
   rotationY: 0
   maxRotation: 50
-  minRotation: -80
+  minRotation: -50
   wizard: {fileID: 0}
 --- !u!1 &4107971813366423861
 GameObject:
