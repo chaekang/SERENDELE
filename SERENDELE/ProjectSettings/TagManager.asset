@@ -13,6 +13,9 @@ TagManager:
   - ItemCamera
   - Enemy
   - Market
+  - HotelNPC
+  - MarketNPC
+  - NPC
   layers:
   - Default
   - TransparentFX
