@@ -9,28 +9,31 @@ using System.Collections;
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject managerGroup;
-    [SerializeField] GameObject serverUI; // UI Äµ¹ö½º
+    [SerializeField] GameObject serverUI; // UI Äµï¿½ï¿½ï¿½ï¿½
     [SerializeField] TMP_Text dayAndNight_text;
     [SerializeField] GameObject playerInfo;
 
-    // ·ë »ý¼º ¹× ÀÔÀå °ü·Ã UI
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UI
+    [Header("Lobby UI")]
     [SerializeField] TMP_Text nickName;
     [SerializeField] TMP_InputField input_RoomName;
     [SerializeField] Button btn_CreateRoom;
     [SerializeField] Button btn_JoinRoom;
     [SerializeField] GameObject roomListItem;
 
-    // Ä³¸¯ÅÍ ¼±ÅÃ °ü·Ã UI
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UI
     [SerializeField] Button btn_Arie;
     [SerializeField] GameObject infoArie;
 
     [SerializeField] Button btn_Lembra;
     [SerializeField] GameObject infoLembra;
 
+    [Header("Selected Character")]
     [SerializeField] bool Lembra;
     [SerializeField] bool Arie;
 
-    // °æ°íÃ¢
+
+    [Header("Warning Message")]
     [SerializeField] Image warningMsg;
     [SerializeField] TMP_Text warningText;
 
@@ -232,9 +235,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     IEnumerator WarningMsg(string msg)
     {
-        //characterError   Ä³¸¯ÅÍ ¼±Á¤ÇÏÁö ¾Ê°í ¹öÆ° ´©¸¦ ½Ã
-        //createRoomError  ¹æ ÀÌ¸§ ÀûÁö ¾Ê°í Create ¹öÆ° ´©¸¦ ½Ã 
-        //enterRoomError   ¹æ ¼±ÅÃÇÏÁö ¾Ê°í Enter ¹öÆ° ´©¸¦ ½Ã
+        //characterError   Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+        //createRoomError  ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ Create ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
+        //enterRoomError   ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ Enter ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         switch (msg)
         {
             case "characterError":

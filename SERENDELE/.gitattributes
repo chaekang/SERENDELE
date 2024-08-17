@@ -6,3 +6,4 @@ SERENDELE/Assets/Firebase/Plugins/x86_64/FirebaseCppDatabase.bundle filter=lfs d
 SERENDELE/Assets/Firebase/Plugins/x86_64/FirebaseCppDatabase.so filter=lfs diff=lfs merge=lfs -text
 SERENDELE/Assets/Firebase/Plugins/x86_64/FirebaseCppFirestore.bundle filter=lfs diff=lfs merge=lfs -text
 SERENDELE/Assets/Firebase/Plugins/x86_64/FirebaseCppFirestore.so filter=lfs diff=lfs merge=lfs -text
+* text=auto
