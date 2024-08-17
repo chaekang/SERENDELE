@@ -7872,7 +7872,7 @@ RectTransform:
   m_Father: {fileID: 130648660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.64}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -46358,6 +46358,8 @@ MonoBehaviour:
   - {fileID: 1343975397}
   - {fileID: 1957229269}
   inventoryWindow: {fileID: 1488486827}
+  dropPosition: {fileID: 0}
+  equipWeaponPosition: {fileID: 0}
   selectedItemName: {fileID: 1928801687}
   selectedItemDescription: {fileID: 239246231}
   selectedItemStatName: {fileID: 1583089994}
@@ -70268,7 +70270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1452461987
 RectTransform:
   m_ObjectHideFlags: 0
@@ -73730,7 +73732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1520174386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86008,7 +86010,7 @@ RectTransform:
   m_Father: {fileID: 1913933833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.64}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -92278,8 +92280,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1698661244}
   m_HandleRect: {fileID: 1698661243}
   m_Direction: 2
-  m_Value: -0.0000071806066
-  m_Size: 0.94320107
+  m_Value: 0
+  m_Size: 0.94253093
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -94546,7 +94548,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000019073486, y: 17.000118}
+  m_AnchoredPosition: {x: 0.0000019073486, y: 17.000008}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1961656758
@@ -101851,6 +101853,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managerGroup: {fileID: 516473584}
   serverUI: {fileID: 741312372}
+  dayAndNight_text: {fileID: 1452461988}
+  playerInfo: {fileID: 1520174385}
   nickName: {fileID: 1533444636}
   input_RoomName: {fileID: 1102408088}
   btn_CreateRoom: {fileID: 2122224741}
