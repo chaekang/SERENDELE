@@ -18,6 +18,8 @@ public class _Player : MonoBehaviourPun
     private Animator animator;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public MeshCollider collider;
+
+    private CharacterController characterController;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,7 @@ public class _Player : MonoBehaviourPun
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
             speed = basicSpeed;
+            characterController = GetComponent<CharacterController>();
         }
     }
 
