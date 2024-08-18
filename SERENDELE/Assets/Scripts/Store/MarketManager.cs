@@ -76,6 +76,11 @@ public class MarketManager : MonoBehaviour
                     StartCoroutine(WaitForHotelChoice());
                 }
             }
+            else if (hit.collider.CompareTag("NPC"))
+            {
+                GameObject clickedObject = hit.collider.gameObject;
+                TalkManager.Instance.Action(clickedObject);
+            }
         }
     }
 

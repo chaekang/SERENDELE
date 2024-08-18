@@ -46,6 +46,7 @@ public class ChoiceManager : MonoBehaviour
         {
             answerTxt[i].text = "";
             answerTri[i].gameObject.SetActive(false);
+            answerBtn[i].gameObject.SetActive(false);
         }
         questionTxt.text = "";
 
@@ -58,6 +59,7 @@ public class ChoiceManager : MonoBehaviour
         questionTxt.text = _choice.question;
         for (int i = 0; i < _choice.answers.Length; i++)
         {
+            answerBtn[i].gameObject.SetActive(true);
             answerList.Add(_choice.answers[i]);
             answerTxt[i].text = _choice.answers[i];
             count = i;
@@ -125,6 +127,7 @@ public class ChoiceManager : MonoBehaviour
         for (int i = 0; i <= count; i++)
         {
             answerTxt[i].text = "";
+            answerBtn[i].gameObject.SetActive(false);
         }
         choicePanel.SetActive(false);
         choiceIng = false;

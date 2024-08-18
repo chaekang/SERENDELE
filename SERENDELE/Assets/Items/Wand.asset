@@ -21,6 +21,8 @@ MonoBehaviour:
   quantity: 0
   canStack: 0
   maxStackAmount: 0
-  attackDefense: []
+  attackDefense:
+  - type: 0
+    value: 10
   consumableValue: 0
   itemPrice: 0
