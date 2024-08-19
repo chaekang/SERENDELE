@@ -16,7 +16,7 @@ public class shortWeapon : MonoBehaviour
 
     void Start()
     {
-        target = GameObject.FindWithTag("Player");
+        target = GameObject.Find("all");
     }
 
     public void setLevel()
@@ -55,11 +55,20 @@ public class shortWeapon : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.gameObject.CompareTag("Player"))
         {
             target.GetComponent<HpAndExp>().DecreaseHp(damage);
+        }
+    }*/
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            target.GetComponent<HpAndExp>().DecreaseHp(damage);
+            Debug.Log("GOOD");
         }
     }
 

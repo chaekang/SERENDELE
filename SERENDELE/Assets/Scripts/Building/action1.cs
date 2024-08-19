@@ -17,7 +17,7 @@ public class action1 : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         self = gameObject;
-        target = GameObject.FindGameObjectWithTag("Player");
+        target = GameObject.Find("all");
     }
 
 
