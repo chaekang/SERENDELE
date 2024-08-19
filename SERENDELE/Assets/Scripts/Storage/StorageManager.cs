@@ -44,7 +44,7 @@ public class StorageManager : MonoBehaviour
         {
             for (int i = 0; i < inventoryItems.Count && i < InvenSlots.Length; i++)
             {
-                InvenSlots[i].SetItem(inventoryItems[i]);
+                //InvenSlots[i].SetItem(inventoryItems[i]);
             }
         });
 
@@ -52,7 +52,7 @@ public class StorageManager : MonoBehaviour
         {
             for (int i = 0; i < storageItems.Count && i < StorageSlots.Length; i++)
             {
-                StorageSlots[i].SetItem(storageItems[i]);
+                //StorageSlots[i].SetItem(storageItems[i]);
             }
         });
     }
@@ -62,18 +62,18 @@ public class StorageManager : MonoBehaviour
         // Inventory와 Storage의 데이터를 Firebase에 저장
         foreach (var invenSlot in InvenSlots)
         {
-            if (invenSlot.HasItem())
+            /*if (invenSlot.HasItem())
             {
                 firebaseManager.SaveItemData(invenSlot.GetItem());
-            }
+            }*/
         }
 
         foreach (var storageSlot in StorageSlots)
         {
-            if (storageSlot.HasItem())
+            /*if (storageSlot.HasItem())
             {
                 firebaseManager.SaveStorageData(storageSlot.GetItem());
-            }
+            }*/
         }
     }
 }
