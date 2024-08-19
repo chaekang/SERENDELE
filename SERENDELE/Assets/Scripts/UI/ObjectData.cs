@@ -6,6 +6,6 @@ public class ObjectData : MonoBehaviour
 {
     // Rio: 100
     public int Id;
-    public static string Name;
+    public string Name;
     public int index;
 }

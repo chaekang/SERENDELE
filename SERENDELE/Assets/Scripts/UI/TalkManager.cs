@@ -6,6 +6,22 @@ using UnityEngine.Tilemaps;
 
 public class TalkManager : MonoBehaviour
 {
+    public static TalkManager Instance;
+    #region Singleton
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            //DontDestroyOnLoad(this.gameObject);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+    #endregion Singleton
+
     public Line lineManager;
     public GameObject talkPanel;       // 게임 대화창
     public TextMeshProUGUI talkText;   // 게임창에 뜨는 텍스트
@@ -14,49 +30,36 @@ public class TalkManager : MonoBehaviour
     public bool isAction;              // 상태저장용 변수
     public int talkIndex;
 
+    private string currentTalks;     // 현재 출력 중인 대사 리스트
+
     public void Action(GameObject scanObj)
     {
         scanNPC = scanObj;
         ObjectData objData = scanObj.GetComponent<ObjectData>();
-        Talk(objData.Id);
+
+        // NPC 대사 초기화
+        currentTalks = lineManager.GetTalk(objData.Id, objData.index, talkIndex);
+
+        // 대화 시작
+        Talk();
     }
 
-    void Talk(int id)
+    void Talk()
     {
-        string talkData = lineManager.GetTalk(id, talkIndex);
-
-        if (talkData == null)
+        if (currentTalks == null)
         {
             isAction = false;
             talkIndex = 0;
+            talkPanel.SetActive(false);  // 대화창 닫기
             return;
         }
 
-        talkText.text = talkData;
-        nameText.text = ObjectData.Name;
+        talkPanel.SetActive(true);
+        talkText.text = currentTalks;
+        nameText.text = scanNPC.GetComponent<ObjectData>().Name;
+
         isAction = true;
+
         talkIndex++;
-    }
-
-    void Update()
-    {
-        // 마우스 클릭 감지
-        if (Input.GetMouseButtonDown(0))
-        {
-            // 클릭한 위치의 오브젝트 확인
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
-
-            if (hit.collider != null)
-            {
-                GameObject clickedObject = hit.collider.gameObject;
-                // 클릭한 오브젝트에 ObjectData 스크립트가 있는지 확인
-                ObjectData objData = clickedObject.GetComponent<ObjectData>();
-                if (objData != null)
-                {
-                    Action(clickedObject);
-                }
-            }
-        }
     }
 }
