@@ -22,58 +22,98 @@ public class StorageManager : MonoBehaviour
 
         storagePanel.SetActive(false);
         inventoryPanel.SetActive(false);
+
+        foreach (var slot in InvenSlot)
+        {
+            slot.button.onClick.AddListener(() => OnInventorySlotClicked(slot));
+        }
+
+        foreach (var slot in StorageSlot)
+        {
+            slot.button.onClick.AddListener(() => OnStorageSlotClicked(slot));
+        }
     }
 
     private void OnEnable()
     {
         storagePanel.SetActive(true);
         inventoryPanel.SetActive(true);
-        LoadData();
     }
 
     private void OnDisable()
     {
         storagePanel.SetActive(false);
         inventoryPanel.SetActive(false);
-        SaveData();
     }
 
-    private void LoadData()
+    private void OnInventorySlotClicked(ItemSlotUI slotUI)
     {
-        firebaseManager.LoadUserItems((inventoryItems) =>
+        int index = slotUI.index;
+        if (InvenSlots[index].item != null)
         {
-            for (int i = 0; i < inventoryItems.Count && i < InvenSlots.Length; i++)
-            {
-                //InvenSlots[i].SetItem(inventoryItems[i]);
-            }
-        });
-
-        firebaseManager.LoadStorageItems((storageItems) =>
-        {
-            for (int i = 0; i < storageItems.Count && i < StorageSlots.Length; i++)
-            {
-                //StorageSlots[i].SetItem(storageItems[i]);
-            }
-        });
+            MoveItem(InvenSlots, StorageSlots, index);
+            firebaseManager.SaveStorageData(StorageSlots[index].item);
+            firebaseManager.DeleteItemData(InvenSlots[index].item);
+        }
     }
 
-    private void SaveData()
+    private void OnStorageSlotClicked(ItemSlotUI slotUI)
     {
-        // Inventory와 Storage의 데이터를 Firebase에 저장
-        foreach (var invenSlot in InvenSlots)
+        int index = slotUI.index;
+        if (StorageSlots[index].item != null)
         {
-            /*if (invenSlot.HasItem())
-            {
-                firebaseManager.SaveItemData(invenSlot.GetItem());
-            }*/
+            MoveItem(StorageSlots, InvenSlots, index);
+            firebaseManager.SaveItemData(InvenSlots[index].item);
+            firebaseManager.DeleteStorageData(StorageSlots[index].item);
+        }
+    }
+
+    private void MoveItem(ItemSlot[] fromSlots, ItemSlot[] toSlots, int index)
+    {
+        // 빈 슬롯 찾기
+        int targetIndex = FindEmptySlot(toSlots);
+
+        if (targetIndex != -1)
+        {
+            toSlots[targetIndex] = fromSlots[index];
+            fromSlots[index] = new ItemSlot(); // 원래 슬롯 비우기
+            RefreshUI();
+        }
+    }
+
+    private int FindEmptySlot(ItemSlot[] slots)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == null)
+                return i;
+        }
+        return -1;
+    }
+
+    private void RefreshUI()
+    {
+        // UI 갱신
+        for (int i = 0; i < InvenSlot.Length; i++)
+        {
+            if (InvenSlots[i].item != null)
+                InvenSlot[i].Set(InvenSlots[i]);
+            else
+                InvenSlot[i].Clear();
         }
 
-        foreach (var storageSlot in StorageSlots)
+        for (int i = 0; i < StorageSlot.Length; i++)
         {
-            /*if (storageSlot.HasItem())
-            {
-                firebaseManager.SaveStorageData(storageSlot.GetItem());
-            }*/
+            if (StorageSlots[i].item != null)
+                StorageSlot[i].Set(StorageSlots[i]);
+            else
+                StorageSlot[i].Clear();
         }
+    }
+
+    public void StorageExitBtn()
+    {
+        inventoryPanel.SetActive(false);
+        storagePanel.SetActive(false);
     }
 }

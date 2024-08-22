@@ -7,6 +7,7 @@ public class MarketManager : MonoBehaviour
 {
     public GameObject purchaseManager;
     public GameObject sellManager;
+    public StorageManager storage;
 
     public TextMeshProUGUI money;
 
@@ -80,6 +81,10 @@ public class MarketManager : MonoBehaviour
             {
                 GameObject clickedObject = hit.collider.gameObject;
                 TalkManager.Instance.Action(clickedObject);
+            }
+            else if (hit.collider.CompareTag("Storage"))
+            {
+                storage.gameObject.SetActive(true);
             }
         }
     }
