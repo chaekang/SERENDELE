@@ -1,5 +1,7 @@
+using Firebase.Auth;
 using TMPro;
 using UnityEngine;
+using Cinemachine;
 
 public interface IInteractable
 {
@@ -17,8 +19,11 @@ public class InteractionManager : MonoBehaviour
     private GameObject curInteractGameobject;
     private IInteractable curInteractable;
 
+    public GameObject promptBg;
     public TextMeshProUGUI promptText;
-    public Camera cam;
+    public CinemachineVirtualCamera virtualCamera;
+
+    private Camera mainCamera;
 
     void Update()
     {
@@ -39,12 +44,23 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        mainCamera = Camera.main;
+
+        if (virtualCamera == null)
+        {
+            Debug.LogError("CinemachineVirtualCamera가 할당되지 않았습니다.");
+            return;
+        }
+    }
+
     private void CheckForInteractable()
     {
         // 화면의 정 중앙에 상호작용 가능한 물체가 있는지 확인하기
-        Ray centerRay = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));    // 화면의 정 중앙에서 Ray를 쏘겠다.
-        Ray upRay = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 + Mathf.Tan(15 * Mathf.Deg2Rad) * maxCheckDistance));
-        Ray downRay = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - Mathf.Tan(15 * Mathf.Deg2Rad) * maxCheckDistance));
+        Ray centerRay = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));    // 화면의 정 중앙에서 Ray를 쏘겠다.
+        Ray upRay = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 + Mathf.Tan(15 * Mathf.Deg2Rad) * maxCheckDistance));
+        Ray downRay = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - Mathf.Tan(15 * Mathf.Deg2Rad) * maxCheckDistance));
 
         bool hitDetected = PerformRaycast(centerRay) || PerformRaycast(upRay) || PerformRaycast(downRay);
 
@@ -52,7 +68,7 @@ public class InteractionManager : MonoBehaviour
         {
             curInteractGameobject = null;
             curInteractable = null;
-            promptText.gameObject.SetActive(false);
+            promptBg.gameObject.SetActive(false);
         }
     }
 
@@ -85,7 +101,7 @@ public class InteractionManager : MonoBehaviour
 
     private void SetPromptText()
     {
-        promptText.gameObject.SetActive(true);
+        promptBg.gameObject.SetActive(true);
         promptText.text = string.Format("<b>[E]</b> {0}", curInteractable.GetInteractPrompt());     // <b></b> : 태그, 마크다운 형식 <b>의 경우 볼드체.
     }
 

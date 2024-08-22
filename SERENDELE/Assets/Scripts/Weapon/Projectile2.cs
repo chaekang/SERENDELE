@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Projectile2 : MonoBehaviour
 {
     public Wand wandScript;
-    public Camera cam;
+    private Camera mainCamera;
     public float damage;
     public float speed;
     public float distance;
@@ -24,17 +24,16 @@ public class Projectile2 : MonoBehaviour
         distance = wandScript.projectileDistance;
 
 
-        if (cam == null)
+        if (mainCamera == null)
         {
-            GameObject focusCam = GameObject.FindGameObjectWithTag("ItemCamera");
-            cam = focusCam.GetComponent<Camera>();
+            mainCamera = Camera.main;
 
-            Vector3 position = new Vector3(cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
-            Ray ray = new Ray(position, cam.transform.forward);
+            Vector3 position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z);
+            Ray ray = new Ray(position, mainCamera.transform.forward);
             direction = ray.direction;
 
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 5f);
-            initPosition = cam.transform.position + cam.transform.forward * 1f;
+            initPosition = mainCamera.transform.position + mainCamera.transform.forward * 1f;
             transform.position = initPosition;
         }
 

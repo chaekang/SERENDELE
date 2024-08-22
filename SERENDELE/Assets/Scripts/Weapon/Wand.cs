@@ -4,7 +4,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public class Wand : MonoBehaviour
 {
-    public bool isHand = false; // 인벤토리랑 연동돼야함 (우선 true)
+    public bool isHand = false; 
 
     // 무기 정보
     public float damage;
@@ -24,7 +24,6 @@ public class Wand : MonoBehaviour
     private Collider col;
     private Rigidbody rb;
 
-    public Camera cam;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,22 +32,39 @@ public class Wand : MonoBehaviour
         col.isTrigger = false;
         rb.useGravity = true;
         rb.isKinematic = false;
+
+        StartCoroutine(CheckHandStatus());
     }
 
     // Update is called once per frame
-    void Update()
+    IEnumerator CheckHandStatus()
     {
-        if (isHand)
+        while (true)
         {
-            UseWeapon();
-            col.isTrigger = true;
-            rb.useGravity = false;
-            rb.isKinematic = true;
-            weaponPosition = GetComponentInParent<Transform>();
-            weaponPosition = weaponPosition.parent;
-            transform.position = weaponPosition.position;
-            transform.rotation = weaponPosition.rotation;
+            if (isHand)
+            {
+                UseWeapon();
+                col.isTrigger = true;
+                rb.useGravity = false;
+                rb.isKinematic = true;
+                weaponPosition = GetComponentInParent<Transform>();
+                weaponPosition = weaponPosition.parent;
+                transform.localScale = Vector3.one;
+                transform.position = weaponPosition.position;
+                transform.rotation = weaponPosition.rotation;
+
+            }
+            else
+            {
+                col.isTrigger = false;
+                rb.useGravity = true;
+                rb.isKinematic = false;
+
+
+            }
+            yield return new WaitForSeconds(0.1f);
         }
+        
     }
     void UseWeapon()
     {
