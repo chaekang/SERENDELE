@@ -469,7 +469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &24031750
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21301,6 +21301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   purchaseManager: {fileID: 1662013295}
   sellManager: {fileID: 2049454037}
+  storage: {fileID: 0}
   money: {fileID: 222482040}
   BuyPanel: {fileID: 24031749}
   SellPanel: {fileID: 1851149767}
@@ -22003,7 +22004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &841847769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22516,7 +22517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &864510190
 RectTransform:
   m_ObjectHideFlags: 0
@@ -44522,7 +44523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1851149768
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54435,15 +54436,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 773822671127932320, guid: c0a4ef9bd025a9a4a815dd8f199e5488, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.26
+      value: -8.8
       objectReference: {fileID: 0}
     - target: {fileID: 773822671127932320, guid: c0a4ef9bd025a9a4a815dd8f199e5488, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.051
+      value: 0.88
       objectReference: {fileID: 0}
     - target: {fileID: 773822671127932320, guid: c0a4ef9bd025a9a4a815dd8f199e5488, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.339
+      value: -7.09
       objectReference: {fileID: 0}
     - target: {fileID: 773822671127932320, guid: c0a4ef9bd025a9a4a815dd8f199e5488, type: 3}
       propertyPath: m_LocalRotation.w

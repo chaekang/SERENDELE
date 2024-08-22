@@ -200,10 +200,11 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 4982321964444754447}
   - {fileID: 3910402527094244457}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -223,16 +224,16 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isMoving
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isRunning
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isAttacking
   - Type: 3
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: weapon
   m_SynchronizeLayers:
   - SynchronizeType: 0

@@ -22,7 +22,12 @@ public class FirebaseManager : MonoBehaviour
             FirebaseApp app = FirebaseApp.DefaultInstance;
             databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
             auth = FirebaseAuth.DefaultInstance;
-            auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(authTask => {
+
+            // 이메일과 비밀번호로 로그인
+            string email = "user@example.com"; // 실제 유저 이메일
+            string password = "userpassword"; // 실제 유저 비밀번호
+
+            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(authTask => {
                 if (authTask.IsCompleted)
                 {
                     user = auth.CurrentUser;
@@ -40,6 +45,12 @@ public class FirebaseManager : MonoBehaviour
                 }
             });
         });
+    }
+
+    // 이메일을 Firebase-friendly 문자열로 변환
+    private string GetFirebaseKeyFromEmail(string email)
+    {
+        return email.Replace(".", ",");
     }
 
     // 아이템 데이터 저장 (덮어쓰기)
@@ -62,18 +73,19 @@ public class FirebaseManager : MonoBehaviour
             return;
         }
 
+        string userEmailKey = GetFirebaseKeyFromEmail(user.Email);
         string itemKey = itemData.displayName;
         SerializableItemData serializableData = itemData.ToSerializable();
         string jsonData = JsonUtility.ToJson(serializableData);
 
-        databaseReference.Child(category).Child(user.UserId).Child(itemKey).SetRawJsonValueAsync(jsonData).ContinueWithOnMainThread(task => {
+        databaseReference.Child($"{category}-{userEmailKey}").Child(itemKey).SetRawJsonValueAsync(jsonData).ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
-                Debug.Log($"{category} item data saved successfully.");
+                Debug.Log($"{category}-{userEmailKey} item data saved successfully.");
             }
             else
             {
-                Debug.LogError($"Failed to save {category} item data: " + task.Exception);
+                Debug.LogError($"Failed to save {category}-{userEmailKey} item data: " + task.Exception);
             }
         });
     }
@@ -96,7 +108,9 @@ public class FirebaseManager : MonoBehaviour
             return;
         }
 
-        databaseReference.Child(category).Child(user.UserId).GetValueAsync().ContinueWithOnMainThread(task => {
+        string userEmailKey = GetFirebaseKeyFromEmail(user.Email);
+
+        databaseReference.Child($"{category}-{userEmailKey}").GetValueAsync().ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
@@ -118,12 +132,12 @@ public class FirebaseManager : MonoBehaviour
                     }
                 }
 
-                Debug.Log($"{category} Loaded items count: " + itemList.Count);
+                Debug.Log($"{category}-{userEmailKey} Loaded items count: " + itemList.Count);
                 callback(itemList);
             }
             else
             {
-                Debug.LogError($"Failed to load {category} user items: " + task.Exception);
+                Debug.LogError($"Failed to load {category}-{userEmailKey} user items: " + task.Exception);
             }
         });
     }
@@ -147,16 +161,17 @@ public class FirebaseManager : MonoBehaviour
             return;
         }
 
+        string userEmailKey = GetFirebaseKeyFromEmail(user.Email);
         string itemKey = itemData.displayName;
 
-        databaseReference.Child(category).Child(user.UserId).Child(itemKey).RemoveValueAsync().ContinueWithOnMainThread(task => {
+        databaseReference.Child($"{category}-{userEmailKey}").Child(itemKey).RemoveValueAsync().ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
-                Debug.Log($"{category} item data deleted successfully.");
+                Debug.Log($"{category}-{userEmailKey} item data deleted successfully.");
             }
             else
             {
-                Debug.LogError($"Failed to delete {category} item data: " + task.Exception);
+                Debug.LogError($"Failed to delete {category}-{userEmailKey} item data: " + task.Exception);
             }
         });
     }
