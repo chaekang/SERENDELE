@@ -27,8 +27,20 @@ public class EnemyDistance : MonoBehaviour
     private float timeAfterSpawn;
     private Vector3 spawnPosition;
 
+    private Animator anim;
+
     void Start()
     {
+        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            Debug.Log("Animator is null");
+        }
+        else
+        {
+            Debug.Log("Animator is not null");
+        }
+
         GetEnemyInform();
         HealthBarSet();
         BulletSetting();
@@ -53,23 +65,27 @@ public class EnemyDistance : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
+            anim.SetTrigger("GetHit");
             enemyCurHealth -= damage;
             Debug.Log("피해입음" + damage);
             Debug.Log("적 체력 : " + enemyCurHealth);
             HealthBarSet();
             if (enemyCurHealth <= 0)
             {
-                Destroy(gameObject);
+                anim.SetBool("isDead", true);
+                //Destroy(gameObject);
             }
         }
     }
 
+    // HP 업데이트
     private void HealthBarSet()
     {
         if (healthBar != null)
             healthBar.value = enemyCurHealth / enemyHealth;
     }
 
+    // 방향 조절
     private void Move()
     {
         transform.LookAt(new Vector3(target.transform.position.x, 0, target.transform.position.z));
@@ -91,10 +107,12 @@ public class EnemyDistance : MonoBehaviour
 
         if (timeAfterSpawn >= spawnRate)
         {
+            anim.SetBool("isAttack", true);
             timeAfterSpawn = 0;
-            GameObject bullet = Instantiate(bulletPrefab, spawnPosition, target.rotation);
+            GameObject bullet = Instantiate(bulletPrefab, spawnPosition, target.rotation);  // 총알 소환
             bullet.transform.LookAt(target);
             spawnRate = Random.Range(spawnRateMin, spawnRateMax);
+            //anim.SetBool("isAttack", false);
         }
     }
 
