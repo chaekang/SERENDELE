@@ -20,7 +20,7 @@ public class Wand : MonoBehaviour
     public float projectileDistance; // 투사체 거리
     public float projectileSpeed;    // 투사체 속도
 
-    public Transform weaponPosition;
+    private Transform weaponPosition;
     private Collider col;
     private Rigidbody rb;
 
@@ -35,7 +35,13 @@ public class Wand : MonoBehaviour
 
         StartCoroutine(CheckHandStatus());
     }
-
+    private void Update()
+    {
+        if (isHand)
+        {
+            UseWeapon();
+        }
+    }
     // Update is called once per frame
     IEnumerator CheckHandStatus()
     {
@@ -43,7 +49,6 @@ public class Wand : MonoBehaviour
         {
             if (isHand)
             {
-                UseWeapon();
                 col.isTrigger = true;
                 rb.useGravity = false;
                 rb.isKinematic = true;
