@@ -127,7 +127,6 @@ public class Inventory : MonoBehaviour
             GameObject arieObject = GameObject.Find("Arie(Clone)");
             if (arieObject == null)
             {
-                Debug.LogError("Arie(Clone) 오브젝트를 찾을 수 없습니다.");
                 return null;
             }
             // 자식 오브젝트를 탐색합니다.
@@ -186,6 +185,7 @@ public class Inventory : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && !GameManager.Instance.MarketManager.isMarketPanelActive)
         {
+            Debug.Log("F key");
             Toggle();
         }
     }
