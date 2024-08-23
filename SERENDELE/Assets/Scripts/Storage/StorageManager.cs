@@ -1,27 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class StorageManager : MonoBehaviour
 {
+    public GameObject systemPanel;
+
     [Header("Storage")]
-    public GameObject storagePanel;
     public ItemSlotUI[] StorageSlot;
     public ItemSlot[] StorageSlots;
 
     [Header("Inventory")]
-    public GameObject inventoryPanel;
     public ItemSlotUI[] InvenSlot;
     public ItemSlot[] InvenSlots;
 
+    private ItemSlot selectedItem;
     FirebaseManager firebaseManager;
 
     private void Start()
     {
         firebaseManager = GameManager.Instance.FirebaseManager;
+        systemPanel.SetActive(false);
 
-        storagePanel.SetActive(false);
-        inventoryPanel.SetActive(false);
+        StorageSlots = new ItemSlot[StorageSlot.Length];
+        for (int i = 0; i < StorageSlots.Length; i++)
+        {
+            StorageSlots[i] = new ItemSlot();
+            StorageSlot[i].index = i;
+            StorageSlot[i].Clear();
+        }
+
+        InvenSlots = new ItemSlot[InvenSlot.Length];
+        for (int i = 0; i < InvenSlots.Length; i++)
+        {
+            InvenSlots[i] = new ItemSlot();
+            InvenSlot[i].index = i;
+            InvenSlot[i].Clear();
+        }
 
         foreach (var slot in InvenSlot)
         {
@@ -34,16 +50,27 @@ public class StorageManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    public void LoadDataFromFirebase()
     {
-        storagePanel.SetActive(true);
-        inventoryPanel.SetActive(true);
-    }
+        firebaseManager.LoadUserItems(inventoryData =>
+        {
+            // 불러온 인벤토리 데이터를 InvenSlots에 설정
+            for (int i = 0; i < inventoryData.Count && i < InvenSlots.Length; i++)
+            {
+                InvenSlots[i].item = inventoryData[i];
+            }
+            RefreshUI();
+        });
 
-    private void OnDisable()
-    {
-        storagePanel.SetActive(false);
-        inventoryPanel.SetActive(false);
+        firebaseManager.LoadStorageItems(storageData =>
+        {
+            // 불러온 스토리지 데이터를 StorageSlots에 설정
+            for (int i = 0; i < storageData.Count && i < StorageSlots.Length; i++)
+            {
+                StorageSlots[i].item = storageData[i];
+            }
+            RefreshUI();
+        });
     }
 
     private void OnInventorySlotClicked(ItemSlotUI slotUI)
@@ -51,9 +78,11 @@ public class StorageManager : MonoBehaviour
         int index = slotUI.index;
         if (InvenSlots[index].item != null)
         {
+            selectedItem = InvenSlots[index]; // 선택된 아이템 저장
             MoveItem(InvenSlots, StorageSlots, index);
-            firebaseManager.SaveStorageData(StorageSlots[index].item);
-            firebaseManager.DeleteItemData(InvenSlots[index].item);
+            firebaseManager.SaveStorageData(selectedItem.item);
+            firebaseManager.DeleteItemData(selectedItem.item);
+            selectedItem = null; // 작업이 끝난 후 초기화
         }
     }
 
@@ -62,9 +91,11 @@ public class StorageManager : MonoBehaviour
         int index = slotUI.index;
         if (StorageSlots[index].item != null)
         {
+            selectedItem = StorageSlots[index]; // 선택된 아이템 저장
             MoveItem(StorageSlots, InvenSlots, index);
-            firebaseManager.SaveItemData(InvenSlots[index].item);
-            firebaseManager.DeleteStorageData(StorageSlots[index].item);
+            firebaseManager.SaveItemData(selectedItem.item);
+            firebaseManager.DeleteStorageData(selectedItem.item);
+            selectedItem = null; // 작업이 끝난 후 초기화
         }
     }
 
@@ -113,7 +144,6 @@ public class StorageManager : MonoBehaviour
 
     public void StorageExitBtn()
     {
-        inventoryPanel.SetActive(false);
-        storagePanel.SetActive(false);
+        systemPanel.SetActive(false);
     }
 }

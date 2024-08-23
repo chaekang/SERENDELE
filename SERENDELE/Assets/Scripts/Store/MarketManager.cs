@@ -82,10 +82,6 @@ public class MarketManager : MonoBehaviour
                 GameObject clickedObject = hit.collider.gameObject;
                 TalkManager.Instance.Action(clickedObject);
             }
-            else if (hit.collider.CompareTag("Storage"))
-            {
-                storage.gameObject.SetActive(true);
-            }
         }
     }
 

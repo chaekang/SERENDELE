@@ -222,7 +222,7 @@ public class Inventory : MonoBehaviour
             if (slotToStackTo != null)
             {
                 slotToStackTo.quantity += item.quantity;
-                firebaseManager.SaveItemData(slotToStackTo.item); // ������ ����
+                firebaseManager.SaveItemData(slotToStackTo.item); 
                 UpdateUI();
                 return;
             }

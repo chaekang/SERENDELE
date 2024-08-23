@@ -78,7 +78,7 @@ public class FirebaseManager : MonoBehaviour
         SerializableItemData serializableData = itemData.ToSerializable();
         string jsonData = JsonUtility.ToJson(serializableData);
 
-        databaseReference.Child($"{category}-{userEmailKey}").Child(itemKey).SetRawJsonValueAsync(jsonData).ContinueWithOnMainThread(task => {
+        databaseReference.Child($"{category}").Child($"{userEmailKey}").Child(itemKey).SetRawJsonValueAsync(jsonData).ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
                 Debug.Log($"{category}-{userEmailKey} item data saved successfully.");
@@ -110,7 +110,7 @@ public class FirebaseManager : MonoBehaviour
 
         string userEmailKey = GetFirebaseKeyFromEmail(user.Email);
 
-        databaseReference.Child($"{category}-{userEmailKey}").GetValueAsync().ContinueWithOnMainThread(task => {
+        databaseReference.Child($"{category}").Child($"{userEmailKey}").GetValueAsync().ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
@@ -155,6 +155,26 @@ public class FirebaseManager : MonoBehaviour
 
     private void DeleteDataFromFirebase(string category, ItemData itemData)
     {
+        if (itemData == null)
+        {
+            Debug.LogError("itemData is null. Cannot delete item data.");
+            return;
+        }
+        else
+        {
+            Debug.Log(itemData.ToString());
+        }
+
+        if (string.IsNullOrEmpty(itemData.displayName))
+        {
+            Debug.LogError("itemData.displayName is null or empty. Cannot delete item data.");
+            return;
+        }
+        else
+        {
+            Debug.Log(itemData.displayName);
+        }
+
         if (!isInitialized)
         {
             Debug.LogWarning("Firebase is not initialized yet. Cannot delete item data.");
@@ -164,7 +184,7 @@ public class FirebaseManager : MonoBehaviour
         string userEmailKey = GetFirebaseKeyFromEmail(user.Email);
         string itemKey = itemData.displayName;
 
-        databaseReference.Child($"{category}-{userEmailKey}").Child(itemKey).RemoveValueAsync().ContinueWithOnMainThread(task => {
+        databaseReference.Child($"{category}").Child($"{userEmailKey}").Child(itemKey).RemoveValueAsync().ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
                 Debug.Log($"{category}-{userEmailKey} item data deleted successfully.");
