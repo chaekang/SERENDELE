@@ -29,27 +29,23 @@ public class EnemyDistance : MonoBehaviour
 
     private Animator anim;
 
+    private bool isPlayerInRange = false;
+
     void Start()
     {
         anim = GetComponent<Animator>();
-        if (anim == null)
-        {
-            Debug.Log("Animator is null");
-        }
-        else
-        {
-            Debug.Log("Animator is not null");
-        }
 
         GetEnemyInform();
         HealthBarSet();
         BulletSetting();
+        healthBar.gameObject.SetActive(false);
     }
 
     void Update()
     {
         EnemyDamaged();
         UpdateTargetArea();
+        UpdateHealthBarPosition();
     }
 
     private void GetEnemyInform()
@@ -89,7 +85,7 @@ public class EnemyDistance : MonoBehaviour
     private void Move()
     {
         transform.LookAt(new Vector3(target.transform.position.x, 0, target.transform.position.z));
-        healthBar.transform.LookAt(healthBar.transform.position + camera.rotation * Vector3.forward, camera.rotation * Vector3.up);
+        //healthBar.transform.LookAt(healthBar.transform.position + camera.rotation * Vector3.forward, camera.rotation * Vector3.up);
     }
 
 
@@ -112,13 +108,14 @@ public class EnemyDistance : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, spawnPosition, target.rotation);  // 총알 소환
             bullet.transform.LookAt(target);
             spawnRate = Random.Range(spawnRateMin, spawnRateMax);
-            //anim.SetBool("isAttack", false);
         }
     }
 
     private void UpdateTargetArea()
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, UpdateTargetDistance);
+        bool playerDetected = false;
+
         if (cols.Length > 0)
         {
             for (int i = 0; i < cols.Length; i++)
@@ -126,14 +123,39 @@ public class EnemyDistance : MonoBehaviour
                 if (cols[i].CompareTag("Player"))
                 {
                     target = cols[i].transform;
+                    healthBar.gameObject.SetActive(true);
                     AttackDistance();
                     Move();
+                    playerDetected = true;
                 }
             }
         }
-        else
+
+        if (playerDetected)
         {
-            target = null;
+            isPlayerInRange = true;
+        }
+        else if (isPlayerInRange)
+        {
+            // 플레이어가 범위에서 벗어났을 때 애니메이션과 체력바를 비활성화
+            anim.SetBool("isAttack", false);
+            healthBar.gameObject.SetActive(false);
+            isPlayerInRange = false;
+        }
+    }
+    private void UpdateHealthBarPosition()
+    {
+        if (target != null && healthBar != null)
+        {
+            Vector3 healthBarPos = transform.position + new Vector3(0, 1.25f, 0);
+            healthBar.transform.position = Camera.main.WorldToScreenPoint(healthBarPos);
+
+            // Distance between Enemy and Player
+            float distance = Vector3.Distance(transform.position, target.position);
+
+            // Size of Slider
+            float scale = Mathf.Clamp(1 / distance * 5f, 0.3f, 1.5f);
+            healthBar.transform.localScale = new Vector3(scale, scale, scale);
         }
     }
 }
