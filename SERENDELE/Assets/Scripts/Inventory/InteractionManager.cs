@@ -21,7 +21,6 @@ public class InteractionManager : MonoBehaviour
 
     public GameObject promptBg;
     public TextMeshProUGUI promptText;
-    public CinemachineVirtualCamera virtualCamera;
 
     private Camera mainCamera;
 
@@ -47,12 +46,6 @@ public class InteractionManager : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-
-        if (virtualCamera == null)
-        {
-            Debug.LogError("CinemachineVirtualCamera가 할당되지 않았습니다.");
-            return;
-        }
     }
 
     private void CheckForInteractable()
