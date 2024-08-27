@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,7 @@ public class MarketManager : MonoBehaviour
     public bool marketBuy;
 
     public bool isMarketPanelActive = false;
+
 
     private void Update()
     {

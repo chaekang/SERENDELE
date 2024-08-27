@@ -15,7 +15,6 @@ TagManager:
   - Market
   - HotelNPC
   - MarketNPC
-  - NPC
   - Storage
   layers:
   - Default
@@ -26,7 +25,7 @@ TagManager:
   - UI
   - Interactable
   - Environment
-  - 
+  - NPC
   - 
   - 
   - 
