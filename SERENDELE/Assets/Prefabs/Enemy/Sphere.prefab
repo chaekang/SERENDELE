@@ -128,6 +128,7 @@ MonoBehaviour:
   speed: 20
   rotationSpeed: 1000
   damage: 10
+  lifeTime: 3
 --- !u!136 &752685280438353636
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -143,7 +144,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
