@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16477537, g: 0.087473445, b: 0.21918905, a: 1}
+  m_IndirectSpecularColor: {r: 0.22023696, g: 0.08126228, b: 0.22770509, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -333,8 +333,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1014242200}
   m_HandleRect: {fileID: 1014242199}
   m_Direction: 2
-  m_Value: -0.0000035903033
-  m_Size: 0.9433333
+  m_Value: -0.0000017951517
+  m_Size: 0.94292533
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7204,7 +7204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000018119812, y: 17.00006}
+  m_AnchoredPosition: {x: 0.000018119812, y: 17.000029}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &306126621
@@ -11582,10 +11582,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13649973419b8904aa1a48f3a899e737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 0
-  curHp: 0
+  maxHp: 200
+  curHp: 200
   curExp: 0
-  curLevel: 0
+  curLevel: 1
   offense: 0
   defense: 0
 --- !u!1 &435838775
@@ -21527,7 +21527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 0
   fullDayLength: 1440
-  startTime: 0.25
+  startTime: 0.5
   noon: {x: 90, y: 0, z: 0}
   sun: {fileID: 1258630134}
   sunColor:
@@ -66089,7 +66089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.68235296}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7647059}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
