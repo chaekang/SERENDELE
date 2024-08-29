@@ -134,7 +134,6 @@ MonoBehaviour:
     m_Bits: 64
   promptBg: {fileID: 3058286881707175076}
   promptText: {fileID: 269936746624874995}
-  virtualCamera: {fileID: 0}
 --- !u!64 &6124721098643770336
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -205,7 +204,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4982321964444754447}
   - {fileID: 3910402527094244457}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
