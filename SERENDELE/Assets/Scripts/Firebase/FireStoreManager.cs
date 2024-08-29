@@ -46,16 +46,25 @@ public class FirestoreManager : MonoBehaviour
         }
     }
 
-    public void CheckAndSaveDefaultData(string userId)
+    // 이메일에서 유효하지 않은 문자를 제거하여 Firestore 문서 ID로 사용
+    private string GetValidDocumentId(string email)
     {
-        db.Collection("users").Document(userId).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        return email.Replace(".", "_").Replace("@", "_");
+    }
+
+    public void CheckAndSaveDefaultData(string email)
+    {
+        string documentId = GetValidDocumentId(email);
+        DocumentReference docRef = db.Collection("Users").Document(documentId).Collection("Data").Document("Stats");
+
+        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
                 DocumentSnapshot snapshot = task.Result;
                 if (!snapshot.Exists)
                 {
-                    SaveDefaultData(userId);
+                    SaveDefaultData(email);
                 }
             }
             else
@@ -65,8 +74,9 @@ public class FirestoreManager : MonoBehaviour
         });
     }
 
-    private void SaveDefaultData(string userId)
+    private void SaveDefaultData(string email)
     {
+        string documentId = GetValidDocumentId(email);
         Dictionary<string, object> defaultData = new Dictionary<string, object>
         {
             { "maxHp", 200f },
@@ -77,17 +87,18 @@ public class FirestoreManager : MonoBehaviour
             { "defense", 0 }
         };
 
-        db.Collection("users").Document(userId).SetAsync(defaultData).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
+        db.Collection("Users").Document(documentId).Collection("Data").Document("Stats")
+            .SetAsync(defaultData).ContinueWithOnMainThread(task =>
             {
-                Debug.Log("Default data saved successfully.");
-            }
-            else
-            {
-                Debug.LogError("Failed to save default data: " + task.Exception);
-            }
-        });
+                if (task.IsCompleted)
+                {
+                    Debug.Log("Default data saved successfully.");
+                }
+                else
+                {
+                    Debug.LogError("Failed to save default data: " + task.Exception);
+                }
+            });
     }
 
     // 데이터 저장하기
@@ -99,7 +110,8 @@ public class FirestoreManager : MonoBehaviour
             return;
         }
 
-        string userId = user.UserId; // 로그인한 사용자 ID 가져오기
+        string email = user.Email; // 로그인한 사용자의 이메일 가져오기
+        string documentId = GetValidDocumentId(email);
 
         // 데이터 구조 정의
         Dictionary<string, object> userData = new Dictionary<string, object>
@@ -113,16 +125,17 @@ public class FirestoreManager : MonoBehaviour
         };
 
         // Firestore에 데이터 저장
-        db.Collection("users").Document(userId).SetAsync(userData).ContinueWithOnMainThread(task => {
-            if (task.IsCompleted)
-            {
-                Debug.Log("Data saved successfully.");
-            }
-            else
-            {
-                Debug.LogError("Failed to save data: " + task.Exception);
-            }
-        });
+        db.Collection("Users").Document(documentId).Collection("Data").Document("Stats")
+            .SetAsync(userData).ContinueWithOnMainThread(task => {
+                if (task.IsCompleted)
+                {
+                    Debug.Log("Data saved successfully.");
+                }
+                else
+                {
+                    Debug.LogError("Failed to save data: " + task.Exception);
+                }
+            });
     }
 
     // 데이터 가져오기
@@ -134,35 +147,37 @@ public class FirestoreManager : MonoBehaviour
             return;
         }
 
-        string userId = user.UserId; // 로그인한 사용자 ID 가져오기
+        string email = user.Email; // 로그인한 사용자의 이메일 가져오기
+        string documentId = GetValidDocumentId(email);
 
-        CheckAndSaveDefaultData(userId);
+        CheckAndSaveDefaultData(email);
 
         // Firestore에서 데이터 가져오기
-        db.Collection("users").Document(userId).GetSnapshotAsync().ContinueWithOnMainThread(task => {
-            if (task.IsCompleted)
-            {
-                DocumentSnapshot snapshot = task.Result;
-                if (snapshot.Exists)
+        db.Collection("Users").Document(documentId).Collection("Data").Document("Stats")
+            .GetSnapshotAsync().ContinueWithOnMainThread(task => {
+                if (task.IsCompleted)
                 {
-                    Dictionary<string, object> userData = snapshot.ToDictionary();
-                    float maxhp = userData.ContainsKey("maxHp") ? float.Parse(userData["maxHp"].ToString()) : 200f;
-                    float curhp = userData.ContainsKey("curHp") ? float.Parse(userData["curHp"].ToString()) : 200f;
-                    float exp = userData.ContainsKey("curExp") ? float.Parse(userData["curExp"].ToString()) : 0f;
-                    int level = userData.ContainsKey("curLevel") ? int.Parse(userData["curLevel"].ToString()) : 1;
-                    int offense = userData.ContainsKey("offense") ? int.Parse(userData["offense"].ToString()) : 0;
-                    int defense = userData.ContainsKey("defense") ? int.Parse(userData["defense"].ToString()) : 0;
-                    callback(maxhp, curhp, exp, level, offense, defense);
+                    DocumentSnapshot snapshot = task.Result;
+                    if (snapshot.Exists)
+                    {
+                        Dictionary<string, object> userData = snapshot.ToDictionary();
+                        float maxhp = userData.ContainsKey("maxHp") ? float.Parse(userData["maxHp"].ToString()) : 200f;
+                        float curhp = userData.ContainsKey("curHp") ? float.Parse(userData["curHp"].ToString()) : 200f;
+                        float exp = userData.ContainsKey("curExp") ? float.Parse(userData["curExp"].ToString()) : 0f;
+                        int level = userData.ContainsKey("curLevel") ? int.Parse(userData["curLevel"].ToString()) : 1;
+                        int offense = userData.ContainsKey("offense") ? int.Parse(userData["offense"].ToString()) : 0;
+                        int defense = userData.ContainsKey("defense") ? int.Parse(userData["defense"].ToString()) : 0;
+                        callback(maxhp, curhp, exp, level, offense, defense);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No user data found.");
+                    }
                 }
                 else
                 {
-                    Debug.LogWarning("No user data found.");
+                    Debug.LogError("Failed to load data: " + task.Exception);
                 }
-            }
-            else
-            {
-                Debug.LogError("Failed to load data: " + task.Exception);
-            }
-        });
+            });
     }
 }
