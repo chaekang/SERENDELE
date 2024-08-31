@@ -174,37 +174,45 @@ public class EnemyDistance : MonoBehaviour
             AttackDistance();
             Move();
         }
-        else if (isPlayerInRange)
+        else
         {
-            anim.SetBool("isAttack", false);
-            isPlayerInRange = false;
+            if (isPlayerInRange)
+            {
+                anim.SetBool("isAttack", false);
+                isPlayerInRange = false;
+            }
         }
     }
 
     private void UpdateHealthBarPosition()
     {
-        if (closestTarget != null && healthBar != null)
+        if (healthBar != null)
         {
-            Vector3 healthBarPos = transform.position + new Vector3(0, 1.25f, 0);
-            Vector3 screenPos = localCamera.GetComponent<Camera>().WorldToScreenPoint(healthBarPos);
-
-            healthBar.transform.position = screenPos;
-
-            // 현재 로컬 카메라에 해당하는 플레이어의 거리를 계산
-            float distanceToLocalPlayer = Vector3.Distance(transform.position, localCamera.position);
-
-            // 체력바 크기를 거리 비례로 조정
-            float scale = Mathf.Clamp(1 / distanceToLocalPlayer * 5f, 0.3f, 1.5f);
-            healthBar.transform.localScale = new Vector3(scale, scale, scale);
-
-            // 플레이어가 감지 범위 내에 있는지 확인
-            if (distanceToLocalPlayer > UpdateTargetDistance)
+            if (isPlayerInRange)
             {
-                healthBar.gameObject.SetActive(false);  // 감지 범위를 벗어나면 체력바 비활성화
+                Vector3 healthBarPos = transform.position + new Vector3(0, 1.25f, 0);
+                Vector3 screenPos = localCamera.GetComponent<Camera>().WorldToScreenPoint(healthBarPos);
+
+                // 현재 로컬 카메라에 해당하는 플레이어의 거리를 계산
+                float distanceToLocalPlayer = Vector3.Distance(transform.position, localCamera.position);
+
+                Vector3 directionToEnemy = (transform.position - localCamera.position).normalized;
+                float dotProduct = Vector3.Dot(localCamera.forward, directionToEnemy);
+
+                if (dotProduct > 0.5f)  // 카메라가 적을 보고 있으면
+                {
+                    healthBar.transform.position = screenPos;
+
+                    // 체력바 크기를 거리 비례로 조정
+                    float scale = Mathf.Clamp(1 / distanceToLocalPlayer * 5f, 0.3f, 1.5f);
+                    healthBar.transform.localScale = new Vector3(scale, scale, scale);
+
+                    healthBar.gameObject.SetActive(true);  // 감지 범위 내에 있으면 체력바 활성화
+                }
             }
             else
             {
-                healthBar.gameObject.SetActive(true);  // 감지 범위 내에 있으면 체력바 활성화
+                healthBar.gameObject.SetActive(false);  // 감지 범위를 벗어나면 체력바 비활성화
             }
         }
     }

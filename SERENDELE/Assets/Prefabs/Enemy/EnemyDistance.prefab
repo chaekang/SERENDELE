@@ -561,6 +561,7 @@ GameObject:
   - component: {fileID: 2147254392985945414}
   - component: {fileID: 6862830483566825004}
   - component: {fileID: 4552890603983492727}
+  - component: {fileID: 9140949663713272660}
   m_Layer: 0
   m_Name: EnemyDistance
   m_TagString: Untagged
@@ -677,6 +678,28 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6481419769830714007, guid: c1bbb4586ccaed44eb7687ae13227d75, type: 3}
   spawnRateMin: 0.5
   spawnRateMax: 3
+--- !u!114 &9140949663713272660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335004342097129758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &4876982217106055573
 GameObject:
   m_ObjectHideFlags: 0
