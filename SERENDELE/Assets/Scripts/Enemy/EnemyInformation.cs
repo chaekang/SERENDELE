@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class EnemyInformation : MonoBehaviour
 {
+    // EnemyShort Information : 근거리 적 정보
+    public float enemyShortHealth = 20f;
+
     // EnemyDistance Information : 원거리 적 정보
     public float enemyDistanceHealth = 20f;
     public float enemyDistanceCurHealth = 20f;
