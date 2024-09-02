@@ -38,9 +38,9 @@ public class follow : MonoBehaviour
     {
         switch (level)
         {
-            case 1: speed = 1.5f; break;
-            case 2: speed = 3f; break;
-            case 3: speed = 5f; break;
+            case 1: speed = 0.7f; break;
+            case 2: speed = 1.1f; break;
+            case 3: speed = 1.5f; break;
         }
     }
 
