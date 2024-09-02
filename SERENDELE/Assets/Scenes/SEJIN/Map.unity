@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16477537, g: 0.087473445, b: 0.21918905, a: 1}
+  m_IndirectSpecularColor: {r: 0.22023696, g: 0.08126228, b: 0.22770509, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -182,6 +182,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7566771514315179169, guid: bbd68a12556671e43862f167670a528f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329097551223515438, guid: bbd68a12556671e43862f167670a528f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329097551223515438, guid: bbd68a12556671e43862f167670a528f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329097551223515438, guid: bbd68a12556671e43862f167670a528f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329097551223515438, guid: bbd68a12556671e43862f167670a528f, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -14922,7 +14938,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 941230568}
   m_Direction: 2
   m_Value: -0.0000035903033
-  m_Size: 0.9433333
+  m_Size: 0.9432894
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -23586,6 +23602,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5241839102500630312, guid: 0e1de6ee081d74a63bba08a065ff3ae2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 657818872}
+    - targetCorrespondingSourceObject: {fileID: 4122672455367370084, guid: 0e1de6ee081d74a63bba08a065ff3ae2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 0e1de6ee081d74a63bba08a065ff3ae2, type: 3}
 --- !u!1 &833856018
 GameObject:
@@ -32546,7 +32565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000018835068, y: 17.00007}
+  m_AnchoredPosition: {x: 0.000018835068, y: 17.000065}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1174466811
@@ -44590,6 +44609,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arie
       objectReference: {fileID: 0}
+    - target: {fileID: 1106976487407222976, guid: 8bdae963b7be8db40b42d827f7d166d8, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3410243927451794275, guid: 8bdae963b7be8db40b42d827f7d166d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.5496254
@@ -53771,6 +53794,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8470252822388938699, guid: efca66e91199d4ead8e7cb4a22fb0d4b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1750926815}
+    - targetCorrespondingSourceObject: {fileID: 1725887478951056358, guid: efca66e91199d4ead8e7cb4a22fb0d4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: efca66e91199d4ead8e7cb4a22fb0d4b, type: 3}
 --- !u!1 &1998346637
 GameObject:

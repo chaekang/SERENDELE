@@ -15,12 +15,13 @@ public class LongDistanceAttack : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
+        
     }
 
     void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        agent = GetComponent<NavMeshAgent>();
         float distance = Vector3.Distance(player.position, transform.position);
 
         // 플레이어를 일정 거리를 유지하면서 추적하게
