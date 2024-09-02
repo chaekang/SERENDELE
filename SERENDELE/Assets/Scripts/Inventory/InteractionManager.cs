@@ -1,12 +1,17 @@
 using Firebase.Auth;
 using TMPro;
 using UnityEngine;
-using Cinemachine;
+using System.Collections;
 
 public interface IInteractable
 {
     string GetInteractPrompt();
     void OnInteract();
+}
+
+public interface INPCInteractable : IInteractable
+{
+    void HandleNPCInteraction(GameObject curInteractGameObject);
 }
 
 public class InteractionManager : MonoBehaviour
@@ -18,40 +23,39 @@ public class InteractionManager : MonoBehaviour
 
     private GameObject curInteractGameobject;
     private IInteractable curInteractable;
+    private INPCInteractable curPCInteractable;
 
     public GameObject promptBg;
     public TextMeshProUGUI promptText;
-    public CinemachineVirtualCamera virtualCamera;
+
+    private GameObject BuyPanel;
+    private GameObject SellPanel;
 
     private Camera mainCamera;
+
+    private void Start()
+    {
+        mainCamera = Camera.main;
+        BuyPanel = GameManager.Instance.MarketManager.BuyPanel;
+        SellPanel = GameManager.Instance.MarketManager.SellPanel;
+    }
 
     void Update()
     {
         if (!Inventory.instance.inventoryWindow.activeInHierarchy)
         {
-            // E 키 입력 시 인벤토리로
+            // E 키 입력 시 상호작용
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Interact();
             }
-        }
 
-        // 마지막으로 체크한 시간이 checkRate를 넘겼다면
-        if (Time.time - lastCheckTime > checkRate)
-        {
-            lastCheckTime = Time.time;
-            CheckForInteractable();
-        }
-    }
-
-    private void Start()
-    {
-        mainCamera = Camera.main;
-
-        if (virtualCamera == null)
-        {
-            Debug.LogError("CinemachineVirtualCamera가 할당되지 않았습니다.");
-            return;
+            // 마지막으로 체크한 시간이 checkRate를 넘겼다면
+            if (Time.time - lastCheckTime > checkRate)
+            {
+                lastCheckTime = Time.time;
+                CheckForInteractable();
+            }
         }
     }
 
@@ -68,6 +72,7 @@ public class InteractionManager : MonoBehaviour
         {
             curInteractGameobject = null;
             curInteractable = null;
+            curPCInteractable = null;
             promptBg.gameObject.SetActive(false);
         }
     }
@@ -86,6 +91,7 @@ public class InteractionManager : MonoBehaviour
             {
                 // 충돌한 물체 가져오기
                 curInteractGameobject = hit.collider.gameObject;
+                curPCInteractable = hit.collider.GetComponent<INPCInteractable>();
                 curInteractable = hit.collider.GetComponent<IInteractable>();
                 SetPromptText();
             }
@@ -101,14 +107,28 @@ public class InteractionManager : MonoBehaviour
 
     private void SetPromptText()
     {
+        if (curPCInteractable != null)
+        {
+            promptText.text = string.Format("<b>[E]</b> {0}", curPCInteractable.GetInteractPrompt());
+        }
+        else if (curInteractable != null)
+        {
+            promptText.text = string.Format("<b>[E]</b> {0}", curInteractable.GetInteractPrompt());
+        }
+
         promptBg.gameObject.SetActive(true);
-        promptText.text = string.Format("<b>[E]</b> {0}", curInteractable.GetInteractPrompt());     // <b></b> : 태그, 마크다운 형식 <b>의 경우 볼드체.
     }
 
     private void Interact()
     {
-        if (curInteractable != null)
+        if (curPCInteractable != null)
         {
+            // NPC 상호작용 처리
+            curPCInteractable.HandleNPCInteraction(curInteractGameobject);
+        }
+        else if (curInteractable != null)
+        {
+            // 일반 오브젝트 상호작용 처리
             curInteractable.OnInteract();
         }
     }

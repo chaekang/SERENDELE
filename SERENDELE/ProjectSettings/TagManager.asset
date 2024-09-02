@@ -15,7 +15,6 @@ TagManager:
   - Market
   - HotelNPC
   - MarketNPC
-  - NPC
   - Storage
   - BossAttackArea
   layers:
@@ -27,7 +26,7 @@ TagManager:
   - UI
   - Interactable
   - Environment
-  - 
+  - NPC
   - 
   - 
   - 

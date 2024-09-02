@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
-public class Chest : MonoBehaviour
+public class Chest : MonoBehaviour, IInteractable
 {
     public StorageManager storage;
     GameObject systemPanel;
@@ -13,9 +14,14 @@ public class Chest : MonoBehaviour
         systemPanel.SetActive(false);
     }
 
-    private void OnMouseDown()
+    public void OnInteract()
     {
         systemPanel.SetActive(true);
         storage.LoadDataFromFirebase();
+    }
+
+    public string GetInteractPrompt()
+    {
+        return string.Format("상자 열기");
     }
 }

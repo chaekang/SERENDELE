@@ -160,19 +160,11 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogError("itemData is null. Cannot delete item data.");
             return;
         }
-        else
-        {
-            Debug.Log(itemData.ToString());
-        }
 
         if (string.IsNullOrEmpty(itemData.displayName))
         {
             Debug.LogError("itemData.displayName is null or empty. Cannot delete item data.");
             return;
-        }
-        else
-        {
-            Debug.Log(itemData.displayName);
         }
 
         if (!isInitialized)

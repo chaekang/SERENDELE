@@ -24,6 +24,7 @@ public class follow : MonoBehaviour
             //15 이내로 들어오면 추적, 아니면 따돌림 판정
             //1.5 이하로 가까워졌을 경우 멈춰서 공격 시작.
         {
+            this.transform.LookAt(player);
             Vector3 direction = player.position - transform.position;
             direction.Normalize();
 
