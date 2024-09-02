@@ -3,8 +3,8 @@ using UnityEngine.AI;
 
 public class LongDistanceAttack : MonoBehaviour
 {
-    public float stoppingDistance = 6f; // 플레이어와 거리
-    public float fireRate = 2f; // 총알 발사 주기
+    public float stoppingDistance = 8f; // 플레이어와 거리
+    public float fireRate = 1.5f; // 총알 발사 주기
     public GameObject bulletPrefab;
     public Transform firePoint;
     private Transform player;

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class SpinBullet : MonoBehaviour
 {
-    public float speed = 10f; // 총알 속도
-    public float rotationSpeed = 1000f; // 총알 회전 속도
+    public float speed = 0.5f; // 총알 속도
+    public float rotationSpeed = 500f; // 총알 회전 속도
     public int damage = 10; // 총알 데미지
-    public float lifeTime = 2f; // 총알 라이프타임 (초 단위)
+    public float lifeTime = 100f; // 총알 라이프타임 (초 단위)
 
     private void Start()
     {
