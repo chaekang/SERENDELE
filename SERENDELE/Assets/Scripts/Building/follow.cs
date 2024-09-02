@@ -20,11 +20,12 @@ public class follow : MonoBehaviour
     void Update()
     {
         distance = Vector3.Distance(transform.position, player.position);
-        if (distance < 15 && distance > 1.5)
+        if (distance < 15 && distance > 0.7)
             //15 이내로 들어오면 추적, 아니면 따돌림 판정
             //1.5 이하로 가까워졌을 경우 멈춰서 공격 시작.
         {
-            this.transform.LookAt(player);
+            Vector3 dir = player.position - transform.position;
+            this.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * speed);
             Vector3 direction = player.position - transform.position;
             direction.Normalize();
 
