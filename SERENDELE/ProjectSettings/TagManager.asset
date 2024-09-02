@@ -17,6 +17,8 @@ TagManager:
   - MarketNPC
   - Storage
   - BossAttackArea
+  - FxTemporaire
+  - Relic
   layers:
   - Default
   - TransparentFX
