@@ -17,6 +17,7 @@ TagManager:
   - MarketNPC
   - NPC
   - Storage
+  - BossAttackArea
   layers:
   - Default
   - TransparentFX

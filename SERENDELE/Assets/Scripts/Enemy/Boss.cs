@@ -1,20 +1,30 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Photon.Pun.Demo.Asteroids;
 using System;
+using Random = UnityEngine.Random;
 using JetBrains.Annotations;
+using static System.Net.WebRequestMethods;
 
 public class Boss : MonoBehaviour
 {
+    // Shaking Camera
+    private Camera camera;
+    private Vector3 cameraPos;
+    [SerializeField][Range(0.01f, 0.1f)] private float shakeRange = .05f;
+    [SerializeField][Range(0.1f, 1.0f)] private float shakeDuration = .5f;
+    [SerializeField] private int shakeInitSpace = 5;
+    Coroutine startCameraShakeCoroutine, endCameraShakeCoroutine;
+
     // Boss Information
     [SerializeField]
     private Slider healthBar;
 
     public float bossHealth;
     public float bossCurHealth;
-    public float damage; // Test damage to see if enemy explode when its health became 0 
+
     public float UpdateTargetDistance = 5f;
     private Vector3 bossPosition;
 
@@ -24,6 +34,7 @@ public class Boss : MonoBehaviour
     // Attack Basic Informaiton 
     private Transform target;
     private Vector3 attackPosition;
+    private GameObject bossAttackArea;
     private float attackDistance;
     private float attackDamage;
     private float attackForce = 3.0f;
@@ -64,6 +75,7 @@ public class Boss : MonoBehaviour
     {
         GetBossInform();
         GetAttackRange();
+        GetCameraInform();
         HealthBarSet();
         BulletSetting();
 
@@ -73,9 +85,8 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BossDamaged();
         UpdateTargetArea();
-        CheckAnimating();
+        StopChasingPlayer();
     }
 
     private void GetBossInform()
@@ -83,11 +94,11 @@ public class Boss : MonoBehaviour
         GameObject enemyController = GameObject.Find("EnemyController");
         bossHealth = enemyController.GetComponent<EnemyInformation>().enemyDistanceHealth;
         bossCurHealth = bossHealth;
-        damage = 5f;
         spawnRate = 3f;
         isAnimating = false;
 
         target = GameObject.FindWithTag("Player").transform;
+        bossAttackArea = GameObject.FindWithTag("BossAttackArea");
     }
     
     private void GetAttackRange()
@@ -98,7 +109,13 @@ public class Boss : MonoBehaviour
         attackRangeCircle = enemyController.transform.Find("AttackRangeCircle").GetComponentInChildren<Projector>();
     }
 
-    private void CheckAnimating()
+    private void GetCameraInform()
+    {
+        camera = Camera.main;
+        cameraPos = camera.transform.localPosition;
+    }
+
+    private void StopChasingPlayer()
     {
         if (isAnimating)
         {
@@ -108,24 +125,40 @@ public class Boss : MonoBehaviour
         else
         {
             Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-            transform.LookAt(targetPosition);
+            //transform.LookAt(targetPosition);
         }
     }
 
-
-
-    private void BossDamaged()
+    private void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.U))
+        Debug.Log("Ï∂©ÎèåÌï®");
+        if (other.CompareTag("Player")) 
         {
+            Debug.Log("ÌîåÎ†àÏù¥Ïñ¥ÏôÄ Ï∂©Îèå");
+            BossDamaged(10f);  
+        }
+    }
+
+    private void BossDamaged(float damage)
+    {
+        if (bossAttackArea)
+        {
+            isAnimating = true;
+
+            animator.SetTrigger("Stun");
+
             bossCurHealth -= damage;
-            Debug.Log("«««ÿ¿‘¿Ω" + damage);
-            Debug.Log("¿˚ √º∑¬ : " + bossCurHealth);
             HealthBarSet();
+
             if (bossCurHealth <= 0)
             {
                 Destroy(gameObject);
             }
+
+            isAnimating = false;
+
+            Debug.Log("ÌîºÌï¥ÏûÖÏùå" + damage);
+            Debug.Log("Ï†Å Ï≤¥Î†• : " + bossCurHealth);
         }
     }
 
@@ -160,7 +193,72 @@ public class Boss : MonoBehaviour
         }
     }
 
+    private void ShakeCamera(float shakeRange = 0, float duration = 0)
+    {
+        Debug.Log("Ïπ¥Î©îÎùº¬†ÌùîÎì§Í∏∞¬†Ìò∏Ï∂ú");
 
+        StopPrevCameraShakeCoroutines();
+
+        shakeRange = shakeRange == 0 ? shakeRange : shakeRange;
+        duration = duration == 0 ? shakeDuration : duration;
+
+        startCameraShakeCoroutine = StartCoroutine("StartShake", shakeRange);
+        endCameraShakeCoroutine = StartCoroutine("StopShake", duration);
+    }
+
+    private IEnumerator StartShake(float shakeRange)
+    {
+        float cameraPosX, cameraPosY;
+        int shakeInitSpacing = shakeInitSpace;
+
+        while (true)
+        {
+            Vector3 cameraOriginalPos = camera.transform.position;
+
+            --shakeInitSpacing;
+            cameraPosX = Random.Range(-shakeRange, shakeRange);
+            cameraPosY = Random.Range(-shakeRange * 0.5f, shakeRange);
+
+            // cameraPosX = Random.value * shakeRange * 2 - shakeRange;
+            // cameraPosY = Random.value * shakeRange * 2 - shakeRange;
+
+            Vector3 shakePos = cameraOriginalPos;
+            shakePos.x += cameraPosX;
+            shakePos.y += cameraPosY;
+
+            camera.transform.position = shakePos;
+
+            if (shakeInitSpacing < 0)
+            {
+                shakeInitSpacing = shakeInitSpace;
+                camera.transform.localPosition = cameraOriginalPos;
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator StopShake(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        camera.transform.localPosition = cameraPos;
+
+        StopPrevCameraShakeCoroutines();
+    }
+
+    private void StopPrevCameraShakeCoroutines()
+    {
+        if (startCameraShakeCoroutine != null)
+        {
+            StopCoroutine(startCameraShakeCoroutine);
+        }
+
+        if (endCameraShakeCoroutine != null)
+        {
+            StopCoroutine(endCameraShakeCoroutine);
+        }
+    }
 
     /* Boss Attack Function */ 
     
@@ -182,12 +280,13 @@ public class Boss : MonoBehaviour
 
     private IEnumerator AttackPattern()
     {
-        string[] attackName = { "Smash", "SpawnEnemy", "AttackDistance", "Swing" };
+        // string[] attackName = { "Smash", "SpawnEnemy", "AttackDistance", "Swing" };
+        string[] attackName = { "Smash" };
         while (bossCurHealth > 0)
         {
             int attackChoiceIndex = UnityEngine.Random.Range(0, attackName.Length);
             string selectedAttack = attackName[attackChoiceIndex];
-            Debug.Log("∆–≈œ ∞Ì∏ß"+ selectedAttack);
+            Debug.Log("Ìå®ÌÑ¥ Í≥†Î¶Ñ"+ selectedAttack);
             switch (selectedAttack)
             {
                 case "Smash":
@@ -208,38 +307,33 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(skillWaitTime);
         }
     }
+
     private IEnumerator AttackDistance()
     {
-        /*
-        spawnPosition = target.position + new Vector3(0, 3f, 0);
-        timeAfterSpawn += Time.deltaTime;
-
-        if (timeAfterSpawn >= spawnRate)
-        {
-            timeAfterSpawn = 0;
-            GameObject bullet = Instantiate(bulletPrefab, spawnPosition, target.rotation);
-            bullet.transform.LookAt(target);
-        }
-        */
         spawnPosition = target.position + new Vector3(0, 3f, 0);
         timeAfterSpawn = 0f;
+        animationWaitTime = 57f / 60f;
 
         while (timeAfterSpawn < spawnRate)
         {
             timeAfterSpawn += Time.deltaTime;
             yield return null;
         }
+        animator.SetTrigger("Distance");
+        yield return new WaitForSeconds(animationWaitTime);
 
         GameObject bullet = Instantiate(bulletPrefab, spawnPosition, target.rotation);
         bullet.transform.LookAt(target);
-        Debug.Log("ø¯∞≈∏Æ ∞¯∞›");
     }
 
     private IEnumerator SpawnEnemy()
     {
         bossPosition = this.gameObject.transform.position;
         isAnimating = true;
+        animationWaitTime = 96f / 60f;
+
         animator.SetTrigger("Spawn");
+        yield return new WaitForSeconds(animationWaitTime);
         // Spawn enemyDistance
         for (int i = 0; i < spawnNumEnemyDistance; i++)
         {
@@ -260,7 +354,7 @@ public class Boss : MonoBehaviour
 
     private IEnumerator Swing()
     {
-        attackRangeSector.gameObject.SetActive(true);
+        // attackRangeSector.gameObject.SetActive(true);
         attackRangeSector.orthographicSize = 1.0f;
         float dotValue = Mathf.Cos(Mathf.Deg2Rad * (angleRange * .5f));
         Vector3 direction = target.position - transform.position;
@@ -295,7 +389,7 @@ public class Boss : MonoBehaviour
 
     private IEnumerator Smash()
     {
-        attackRangeLine.gameObject.SetActive(true);
+        // attackRangeLine.gameObject.SetActive(true);
         attackRangeLine.orthographicSize = 0.01f;
         attackRangeLine.aspectRatio = 20.0f;
 
@@ -331,7 +425,7 @@ public class Boss : MonoBehaviour
         Quaternion projectorRotation = projector.transform.rotation;
 
         Vector3 center = projectorPosition + projectorRotation * Vector3.forward * halfHeight;
-        Vector3 size = new Vector3(halfWidth * 2, 0.01f, halfHeight * 2);  // ≥Ù¿Ã¥¬ ∞≈¿« æ¯µµ∑œ º≥¡§
+        Vector3 size = new Vector3(halfWidth * 2, 0.01f, halfHeight * 2);  // ÎÜíÏù¥Îäî Í±∞Ïùò ÏóÜÎèÑÎ°ù ÏÑ§Ï†ï
 
         Bounds bounds = new Bounds(center, size);
 

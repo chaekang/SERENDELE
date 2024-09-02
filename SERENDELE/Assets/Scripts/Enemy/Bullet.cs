@@ -20,11 +20,14 @@ public class Bullet : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
+        /*
         if (other.CompareTag("Player"))
         {
+            Debug.Log("바위 플레이어와 충돌");
             Destroy(gameObject);
         }
+        */
     }
 }
