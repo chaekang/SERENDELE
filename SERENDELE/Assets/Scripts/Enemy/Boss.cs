@@ -25,7 +25,7 @@ public class Boss : MonoBehaviour
     public float bossHealth;
     public float bossCurHealth;
 
-    public float UpdateTargetDistance = 5f;
+    public float UpdateTargetDistance = 100f;
     private Vector3 bossPosition;
 
     public Animator animator;
@@ -98,6 +98,12 @@ public class Boss : MonoBehaviour
         isAnimating = false;
 
         target = GameObject.FindWithTag("Player").transform;
+
+        if (target == null)
+        {
+            GetBossInform();
+        }
+
         bossAttackArea = GameObject.FindWithTag("BossAttackArea");
     }
     
@@ -107,6 +113,7 @@ public class Boss : MonoBehaviour
         attackRangeSector = enemyController.transform.Find("AttackRangeSector").GetComponent<Projector>();
         attackRangeLine = enemyController.transform.Find("AttackRangeLine").GetComponentInChildren<Projector>();
         attackRangeCircle = enemyController.transform.Find("AttackRangeCircle").GetComponentInChildren<Projector>();
+
     }
 
     private void GetCameraInform()
@@ -117,6 +124,10 @@ public class Boss : MonoBehaviour
 
     private void StopChasingPlayer()
     {
+        if (target == null)
+        {
+            return;
+        }
         if (isAnimating)
         {
             Vector3 rotation = transform.rotation.eulerAngles;
@@ -125,7 +136,7 @@ public class Boss : MonoBehaviour
         else
         {
             Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-            //transform.LookAt(targetPosition);
+            transform.LookAt(targetPosition);
         }
     }
 
@@ -280,8 +291,8 @@ public class Boss : MonoBehaviour
 
     private IEnumerator AttackPattern()
     {
-        // string[] attackName = { "Smash", "SpawnEnemy", "AttackDistance", "Swing" };
-        string[] attackName = { "Smash" };
+        string[] attackName = { "Smash", "SpawnEnemy", "Swing" };
+        // string[] attackName = { "AttackDistance" };
         while (bossCurHealth > 0)
         {
             int attackChoiceIndex = UnityEngine.Random.Range(0, attackName.Length);
@@ -329,6 +340,7 @@ public class Boss : MonoBehaviour
     private IEnumerator SpawnEnemy()
     {
         bossPosition = this.gameObject.transform.position;
+        bossPosition.y += 5.0f;
         isAnimating = true;
         animationWaitTime = 96f / 60f;
 
@@ -341,25 +353,24 @@ public class Boss : MonoBehaviour
             enemy.transform.LookAt(target);
         }
 
-        // Spawn enemyExplode
         for (int i = 0; i < spawnNumEnemyExplode; i++)
         {
-            GameObject enemy = Instantiate(enemyExplode, bossPosition, target.rotation);
-            enemy.transform.LookAt(target);
+            //GameObject enemy = Instantiate(enemyExplode, bossPosition, target.rotation);
+            //enemy.transform.LookAt(target);
         }
         isAnimating = false;
-
         yield return new WaitForSeconds(1f);
     }
 
     private IEnumerator Swing()
     {
-        // attackRangeSector.gameObject.SetActive(true);
+        attackRangeSector.gameObject.SetActive(true);
         attackRangeSector.orthographicSize = 1.0f;
+
         float dotValue = Mathf.Cos(Mathf.Deg2Rad * (angleRange * .5f));
         Vector3 direction = target.position - transform.position;
 
-        attackDistance = 4.0f;
+        attackDistance = 10.0f;
         float swingDamage = 3.0f;
         animationWaitTime = 44f / 60f;
 
@@ -372,9 +383,11 @@ public class Boss : MonoBehaviour
 
         if (direction.magnitude < attackDistance)
         {
+            Debug.Log("사정거리 안에 들어오다");
             if (Vector3.Dot(direction.normalized, transform.forward) > dotValue)
             {
                 isAnimating = true;
+                Debug.Log("애니메이션실행");
                 animator.SetTrigger("Swing");
                 yield return new WaitForSeconds(animationWaitTime);
                 // PlayerAttack(smashDamage);
@@ -389,7 +402,7 @@ public class Boss : MonoBehaviour
 
     private IEnumerator Smash()
     {
-        // attackRangeLine.gameObject.SetActive(true);
+        attackRangeLine.gameObject.SetActive(true);
         attackRangeLine.orthographicSize = 0.01f;
         attackRangeLine.aspectRatio = 20.0f;
 
@@ -409,8 +422,8 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(animationWaitTime);
         ShockPlayer(attackRangeSector, smashDamage);
         
-        // Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
-        // targetRigidbody.AddForce(new Vector3(0f, attackForce, 0f), ForceMode.Impulse);
+        Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
+        targetRigidbody.AddForce(new Vector3(0f, attackForce, 0f), ForceMode.Impulse);
 
         isAnimating = false;
         yield return new WaitForSeconds(1f);

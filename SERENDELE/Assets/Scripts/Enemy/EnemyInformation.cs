@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyInformation : MonoBehaviour
 {
+    
     // EnemyShort Information : 근거리 적 정보
     public float enemyShortHealth = 20f;
 
@@ -19,13 +20,15 @@ public class EnemyInformation : MonoBehaviour
     // Boss Information : 보스 정보 
     public float bossHealth = 20f;
 
+
     void Start()
     {
-
+        
     }
 
     void Update()
     {
 
     }
+
 }

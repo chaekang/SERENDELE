@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            target.GetComponent<HpAndExp>().DecreaseHp(10);
+            //target.GetComponent<HpAndExp>().DecreaseHp(10);
             Destroy(gameObject);
         }
     }

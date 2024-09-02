@@ -14,7 +14,7 @@ public class EnemyDistance : MonoBehaviour
     public float enemyCurHealth;
     public float damage; 
     public float UpdateTargetDistance = 1f;
-    private Transform localCamera;  // 로컬 카메라 참조
+    // private Transform localCamera;  // 로컬 카메라 참조
 
     // Attack 
     [SerializeField]
@@ -45,11 +45,11 @@ public class EnemyDistance : MonoBehaviour
         // 로컬 카메라 찾기
         if (photonView.IsMine)
         {
-            localCamera = Camera.main.transform;
+            // localCamera = Camera.main.transform;
         }
         else
         {
-            localCamera = FindLocalCamera();  // 다른 플레이어의 카메라 찾기
+            // localCamera = FindLocalCamera();  // 다른 플레이어의 카메라 찾기
         }
 
         GetEnemyInform();
@@ -191,17 +191,18 @@ public class EnemyDistance : MonoBehaviour
             if (isPlayerInRange)
             {
                 Vector3 healthBarPos = transform.position + new Vector3(0, 1.25f, 0);
-                Vector3 screenPos = localCamera.GetComponent<Camera>().WorldToScreenPoint(healthBarPos);
+                // Vector3 screenPos = localCamera.GetComponent<Camera>().WorldToScreenPoint(healthBarPos);
 
                 // 현재 로컬 카메라에 해당하는 플레이어의 거리를 계산
-                float distanceToLocalPlayer = Vector3.Distance(transform.position, localCamera.position);
+                // float distanceToLocalPlayer = Vector3.Distance(transform.position, localCamera.position);
 
-                Vector3 directionToEnemy = (transform.position - localCamera.position).normalized;
-                float dotProduct = Vector3.Dot(localCamera.forward, directionToEnemy);
+                // Vector3 directionToEnemy = (transform.position - localCamera.position).normalized;
+                // float dotProduct = Vector3.Dot(localCamera.forward, directionToEnemy);
 
+                /*
                 if (dotProduct > 0.5f)  // 카메라가 적을 보고 있으면
                 {
-                    healthBar.transform.position = screenPos;
+                    // healthBar.transform.position = screenPos;
 
                     // 체력바 크기를 거리 비례로 조정
                     float scale = Mathf.Clamp(1 / distanceToLocalPlayer * 5f, 0.3f, 1.5f);
@@ -209,6 +210,8 @@ public class EnemyDistance : MonoBehaviour
 
                     healthBar.gameObject.SetActive(true);  // 감지 범위 내에 있으면 체력바 활성화
                 }
+                */
+
             }
             else
             {
