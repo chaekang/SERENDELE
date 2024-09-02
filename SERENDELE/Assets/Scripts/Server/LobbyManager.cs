@@ -52,7 +52,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         btn_Arie.onClick.AddListener(ClickArie);
         btn_Lembra.onClick.AddListener(ClickLembra);
 
-        PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
+        else
+            Debug.Log("Already connected to Photon");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)

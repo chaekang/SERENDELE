@@ -6,28 +6,22 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
+    private GameObject target;
 
     // Start is called before the first frame update
     void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
         Destroy(gameObject, 3f);
+        target = GameObject.Find("all");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        /*
         if (other.CompareTag("Player"))
         {
-            Debug.Log("바위 플레이어와 충돌");
+            target.GetComponent<HpAndExp>().DecreaseHp(10);
             Destroy(gameObject);
         }
-        */
     }
 }

@@ -91,21 +91,15 @@ public class Inventory : MonoBehaviour
         {
             if (dropPosition == null)
             {
-                Debug.Log("Attempting to assign drop position.");
                 dropPosition = FindInactiveObjectByName("DropPosition")?.transform;
             }
 
             if (equipWeaponPosition == null)
             {
-                Debug.Log("Attempting to assign equipWeaponPosition.");
                 GameObject equipWeaponPositionObj = FindEquipWeaponPosition();
                 if (equipWeaponPositionObj != null)
                 {
                     equipWeaponPosition = equipWeaponPositionObj.transform;
-                }
-                else
-                {
-                    Debug.LogWarning("equipWeaponPosition not found. Retrying...");
                 }
             }
 
