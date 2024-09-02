@@ -10,7 +10,7 @@ public class MarketManager : MonoBehaviour
     public GameObject sellManager;
     public StorageManager storage;
 
-    public TextMeshProUGUI money;
+    public GameObject money;
 
     public GameObject BuyPanel;
     public GameObject SellPanel;
