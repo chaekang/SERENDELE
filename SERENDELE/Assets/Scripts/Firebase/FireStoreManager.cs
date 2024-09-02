@@ -76,8 +76,10 @@ public class FirestoreManager : MonoBehaviour
 
     private void SaveDefaultData(string email)
     {
-        string documentId = GetValidDocumentId(email);
-        Dictionary<string, object> defaultData = new Dictionary<string, object>
+        try
+        {
+            string documentId = GetValidDocumentId(email);
+            Dictionary<string, object> defaultData = new Dictionary<string, object>
         {
             { "maxHp", 200f },
             { "curHp", 200f },
@@ -87,18 +89,22 @@ public class FirestoreManager : MonoBehaviour
             { "defense", 0 }
         };
 
-        db.Collection("Users").Document(documentId).Collection("Data").Document("Stats")
-            .SetAsync(defaultData).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCompleted)
+            db.Collection("Users").Document(documentId).Collection("Data").Document("Stats")
+                .SetAsync(defaultData).ContinueWithOnMainThread(task =>
                 {
-                    Debug.Log("Default data saved successfully.");
-                }
-                else
-                {
-                    Debug.LogError("Failed to save default data: " + task.Exception);
-                }
-            });
+                    if (task.IsCompleted)
+                    {
+                        Debug.Log("Default data saved successfully.");
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to save default data: " + task.Exception);
+                    }
+                });
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Exception in SaveDefaultData: " + e.Message);        }
     }
 
     // 데이터 저장하기

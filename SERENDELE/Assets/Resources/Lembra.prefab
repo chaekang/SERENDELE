@@ -582,7 +582,6 @@ MonoBehaviour:
     m_Bits: 64
   promptBg: {fileID: 917303228512708636}
   promptText: {fileID: 4115665433044668531}
-  virtualCamera: {fileID: 0}
 --- !u!64 &1166922848213020171
 MeshCollider:
   m_ObjectHideFlags: 0

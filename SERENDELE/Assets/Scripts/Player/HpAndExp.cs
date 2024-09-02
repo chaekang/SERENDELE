@@ -158,7 +158,7 @@ public class HpAndExp : MonoBehaviour
         curLevel = level;
         offense = off;
         defense = def;
-        Debug.Log($"Player data loaded: MaxHP={maxhp}, CurHp={curhp}, EXP={exp}, Level={level}, Offense={offense}, Defense={defense}");
+        Debug.Log($"Player data loaded: MaxHP={maxhp}, CurHp={curhp}, EXP={exp}, Level={level}, Offense={off}, Defense={def}");
     }
 
     // HP È¸º¹
